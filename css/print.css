@@ -1,0 +1,64 @@
+* {
+    transition: none !important;
+    -webkit-print-color-adjust: exact !important;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+@page {
+    size: 210mm 297mm;
+    margin: 50px;
+    width: 100%;
+}
+
+table {
+    page-break-inside: auto;
+    width: 100%;
+}
+
+table td {
+    page-break-inside: avoid;
+}
+
+thead {
+    display: table-header-group
+}
+
+tfoot {
+    display: table-footer-group
+}
+
+table td:last-child {
+    display: none
+}
+
+table th:last-child {
+    display: none
+}
+
+#timeTable {
+    width: 100%;
+}
+
+td {
+    border-top: 1px #000 solid;
+    border-bottom: 1px #000 solid;
+}
+
+.es-time-table th, .es-time-table td {
+    font-weight: bold;
+    height: 55px;
+    text-align: center;
+    vertical-align: middle !important;
+}
+
+.es-time-table-available {
+    background-color: #A4E4A0;
+}
+
+.es-time-table-break {
+    background-color: #CBCBCC;
+}
+
+.es-time-table-occupied {
+    background-color: #D4999F;
+}

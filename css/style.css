@@ -1,0 +1,118 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+    overflow-y: scroll;
+    background: #EBECEE;
+}
+
+.form-signin {
+    max-width: 500px;
+    padding: 19px 29px 29px;
+    margin: 0 auto;
+    /* margin-top: 90px; */
+    background-color: #FFF;
+
+    border: 1px solid #E5E5E5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+
+    font-family: Tahoma, Geneva, sans-serif;
+    color: #990000;
+    font-weight: lighter;
+}
+
+.form-signin .form-signin-heading {
+    color: #00A2D1;
+}
+
+.form-signin input[type="text"],
+.form-signin input[type="password"],
+.form-signin input[type="email"] {
+    font-size: 16px;
+    height: 45px;
+    padding: 7px 9px;
+}
+
+.signin-form, .body-container {
+    /* border: solid red 1px; */
+    margin-top: 110px;
+}
+
+.navbar-brand {
+    font-family: "Lucida Handwriting", sans-serif;
+}
+
+#btn-submit {
+    height: 45px;
+}
+
+.message {
+    margin-top: 30px;
+    display: none;
+}
+
+.newsletterDownload {
+    margin-top: 10px;
+}
+
+.btn {
+    margin-right: 20px;
+}
+
+.alert {
+    margin: 10px 0;
+}
+
+#csv-preview {
+    display: none;
+}
+
+/* ------- Tables ---------- */
+
+.es-time-table th, .es-time-table td {
+    font-weight: bold;
+    height: 55px;
+    text-align: center;
+    vertical-align: middle !important;
+}
+
+.es-time-table-available {
+    background-color: #A4E4A0;
+}
+
+.es-time-table-break {
+    background-color: #CBCBCC;
+}
+
+.es-time-table-occupied {
+    background-color: #D4999F;
+}
+
+/* ------- print ------- */
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .es-time-table-occupied {
+        background-color: #D4999F;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .section-to-print, .section-to-print * {
+        visibility: visible;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .section-to-print {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
