@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `parent_teacher_meeting`
+-- Datenbank: `speechday`
 --
-CREATE DATABASE IF NOT EXISTS `parent_teacher_meeting` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `parent_teacher_meeting`;
+CREATE DATABASE IF NOT EXISTS `speechday` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `speechday`;
 
 -- --------------------------------------------------------
 
