@@ -46,6 +46,9 @@ class SlotDAO extends AbstractDAO {
         self::query($con, 'UPDATE slot SET available = 1 WHERE teacherId = ? AND eventId = ?;', array($userId, $eventId));
         self::query($con, 'UPDATE slot SET available = 0, studentId = NULL WHERE teacherId = ? AND eventId = ? AND (dateFrom NOT BETWEEN ? AND ? - 1);', array($userId, $eventId, $fromTime, $toTime));
         self::getConnection()->commit();
+
+        $info = json_encode(array('eventId' => $eventId, 'fromTime' => $fromTime, 'toTime' => $toTime));
+        LogDAO::log($userId, LogDAO::LOG_ACTION_CHANGE_ATTENDANCE, $info);
     }
 
     public static function getAttendanceForUser($userId) {

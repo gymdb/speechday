@@ -87,6 +87,8 @@ function getActionString($actionId) {
             return 'Termin gebucht';
         case 4:
             return 'Termin gelöscht';
+        case 5:
+            return 'Anwesenheit geändert';
         default:
             return 'Unbekannte Aktion';
     }

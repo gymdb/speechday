@@ -384,8 +384,15 @@ class ViewController extends Controller {
                 $infoOutput = '';
                 if ($logInfo != null) {
                     $event = EventDAO::getEventForId($logInfo['eventId']);
-                    $slot = SlotDAO::getSlotForId($logInfo['slotId']);
-                    $infoOutput = 'Sprechtag: ' . escape($event->getName()) . '<br>Termin: ' . escape(toDate($slot->getDateFrom(), 'H:i'));
+                    if ($log->getAction() == LogDAO::LOG_ACTION_CHANGE_ATTENDANCE) {
+                        $infoOutput = 'Sprechtag: ' . escape($event->getName()) .
+                                      '<br>anwesend von: ' . escape(toDate($logInfo['fromTime'], 'H:i')) .
+                                      '<br>anwesend bis: ' . escape(toDate($logInfo['toTime'], 'H:i'));
+                    } else {
+                        $slot = SlotDAO::getSlotForId($logInfo['slotId']);
+                        $infoOutput = 'Sprechtag: ' . escape($event->getName()) . '<br>Termin: ' .
+                                      escape(toDate($slot->getDateFrom(), 'H:i'));
+                    }
                 }
                 ?>
 
@@ -442,7 +449,7 @@ class ViewController extends Controller {
             <div class='message' id='newsletterMessage'></div>
 
             <?php if ($fileExists): ?>
-                <div class="newsletterDownload">
+                <div class='newsletterDownload'>
                         <p>Rundbrief herunterladen: </p>
                         <a href='<?php echo($filename) ?>' type='application/vnd.oasis.opendocument.text' download>Rundbrief</a>
                 </div>
