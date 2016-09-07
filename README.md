@@ -13,6 +13,7 @@ If you want to quickly try out the tool there is also a SQL script provided in t
 ## Usage
 
 Administrator:
+
 1. Import teachers via a CSV file.
 2. Import student data via a CSV file.
 3. Upload a newsletter template in ODT format.
@@ -20,9 +21,11 @@ Administrator:
 5. Create the newsletter and distribute it among the students / parents.
 
 As a teacher (optional):
+
 1. Set the time range you are present.
 
 As a student / parent:
+
 1. Log in with the credentials provided on the newsletter.
 2. Book the desired slots for the desired teacher.
 3. Print your time-table.
