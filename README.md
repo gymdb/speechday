@@ -12,7 +12,7 @@ If you want to quickly try out the tool there is also a SQL script provided in t
 
 ## Usage
 
-Administrator:
+As an administrator:
 
 1. Import teachers via a CSV file.
 2. Import student data via a CSV file.
