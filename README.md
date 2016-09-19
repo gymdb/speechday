@@ -10,6 +10,8 @@ You can create the needed database with the SQL script provided in the setup fol
 Furthermore you have to enter your database credentials in the settings.ini file contained in code/dao.
 If you want to quickly try out the tool there is also a SQL script provided in the setup folder which puts some dummy test data in your newly created database. 
 
+Be aware that the UI is in german.
+
 ## Usage
 
 As an administrator:
