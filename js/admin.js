@@ -49,16 +49,27 @@ $(document).ready(function () {
     });
 
     $("#inputUploadType").change(function () {
-        var selectedType = $("select#inputUploadType option:checked").val();
-
-        var allowedFileTypes = $("#allowed-file-types");
-        if (selectedType == 'newsletter') {
-            allowedFileTypes.html("Es sind nur ODT Dateien erlaubt.");
-        } else {
-            allowedFileTypes.html("Es sind nur CSV Dateien erlaubt.");
-        }
+        updateUploadInfos();
     });
+
+    updateUploadInfos();
 });
+
+function updateUploadInfos() {
+    var selectedType = $('select#inputUploadType option:checked').val();
+
+    var allowedFileTypes = $('#allowed-file-types');
+    var uploadDialog = $('#input-file');
+    if (selectedType == 'newsletter') {
+        allowedFileTypes.html('Es sind nur ODT Dateien erlaubt.');
+        uploadDialog.attr('accept', '.odt');
+    } else {
+        allowedFileTypes.html('Es sind nur CSV Dateien erlaubt.');
+        uploadDialog.attr('accept', '.csv');
+    }
+
+    $('#templateDownloadAlertContainer').load('viewController.php?action=templateDownloadAlert&type=' + selectedType);
+}
 
 function loadChangeUserForm(type) {
     $('#changeUserForm').load('viewController.php?action=' + type, function () {

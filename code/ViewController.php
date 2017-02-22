@@ -485,4 +485,80 @@ class ViewController extends Controller {
         </table>
         <?php
     }
+
+    public function action_templateDownloadAlert() {
+        switch ($_REQUEST['type']) {
+            case 'student':
+                $typeText = 'Schüler Vorlage (CSV)';
+                $mimeType = 'text/csv';
+                $filePath = 'templates/students.csv';
+                $infos = '<br><br>
+                    <p><b>Infos:</b></p>
+                    <p>
+                    Ein Datensatz muss folgende Elemente besitzen:
+                    <br>
+                    Vorname;Nachname;Klasse;Benutzername;Passwort
+                    <br><br>
+                    Trennzeichen muss der Strichpunkt sein. Benutzername und Passwort sind optional.
+                    <br><br>
+                    Beispiele:
+                    <ul>
+                        <li>Angelika;Albers;8B;;</li>
+                        <li>Britta;Bäcker;1D;baecker1;password1</li>
+                    </ul>
+                    </p>';
+                break;
+
+            case 'teacher':
+                $typeText = 'Lehrer Vorlage (CSV)';
+                $mimeType = 'text/csv';
+                $filePath = 'templates/teachers.csv';
+                $infos = '<br><br>
+                    <p><b>Infos:</b></p>
+                    <p>
+                    Ein Datensatz muss folgende Elemente besitzen:
+                    <br>
+                    Vorname;Nachname;Klasse;Benutzername;Passwort;Raumnummer;Raumname
+                    <br><br>
+                    Trennzeichen muss der Strichpunkt sein. Raumnummer und Raumname sind optional.
+                    <br><br>
+                    Beispiele:
+                    <ul>
+                        <li>Otto;Normalverbraucher;1C;ottonormal;user987;A001;Konferenzzimmer</li>
+                        <li>John;Doe;2E;johnny456;some_pw!;;</li>
+                    </ul>
+                    </p>';
+                break;
+
+            case 'newsletter':
+            default:
+                $typeText = 'Rundbrief Vorlage (ODT)';
+                $mimeType = 'application/vnd.oasis.opendocument.text';
+                $filePath = 'templates/newsletter_template.odt';
+                $infos = '<br><br>
+                    <p><b>Infos:</b></p>
+                    <p>
+                    In der Vorlage können folgende Platzhalter verwendet werden:
+                    <ul>
+                        <li>ESTODAY (heutiges Datum)</li> 
+                        <li>ESDATE (Datum des Elternsprechtags)</li>
+                        <li>ESFIRSTNAME (Vorname des Schülers)</li>
+                        <li>ESLASTNAME (Nachname des Schülers)</li>
+                        <li>ESCLASS (Klasse des Schülers)</li>
+                        <li>ESUSERNAME (Benutzername des Schülers)</li>
+                        <li>ESPASSWORD (Passwort des Schülers)</li>
+                    </ul>
+                    </p>';
+        }
+
+        ?>
+        <div class='alert alert-info'>
+            <button type='button' class='close' data-dismiss='alert'>&times;</button>
+            <h4>Tipp!</h4>
+            <p><b>Vorlage herunterladen:</b></p>
+            <a href='<?php echo($filePath) ?>' type='<?php echo($mimeType) ?>' download><?php echo escape($typeText); ?></a>
+            <?php echo($infos) ?>
+        </div>
+        <?php
+    }
 }
