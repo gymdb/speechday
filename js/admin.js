@@ -47,6 +47,17 @@ $(document).ready(function () {
         var type = this.value;
         loadChangeUserForm(type);
     });
+
+    $("#inputUploadType").change(function () {
+        var selectedType = $("select#inputUploadType option:checked").val();
+
+        var allowedFileTypes = $("#allowed-file-types");
+        if (selectedType == 'newsletter') {
+            allowedFileTypes.html("Es sind nur ODT Dateien erlaubt.");
+        } else {
+            allowedFileTypes.html("Es sind nur CSV Dateien erlaubt.");
+        }
+    });
 });
 
 function loadChangeUserForm(type) {

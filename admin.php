@@ -119,7 +119,7 @@ include_once 'inc/header.php';
                             <label class='control-label'>Datei auswählen</label>
                             <input id='input-file' type='file' name='file' class='file' data-show-preview='false'
                                    accept='.csv,.odt'>
-                            <p class='help-block'>Es sind nur CSV bzw. ODT Dateien erlaubt.</p>
+                            <p id="allowed-file-types" class='help-block'>Es sind nur CSV Dateien erlaubt.</p>
                         </div>
 
                         <button type='submit' class='btn btn-primary' id='btn-upload-file'>Importieren</button>
