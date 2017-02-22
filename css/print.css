@@ -27,11 +27,7 @@ tfoot {
     display: table-footer-group
 }
 
-table td:last-child {
-    display: none
-}
-
-table th:last-child {
+.no-print {
     display: none
 }
 

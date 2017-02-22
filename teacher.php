@@ -37,7 +37,11 @@ include_once 'inc/header.php';
                         </div>
                     </form>
 
-                    <div id='timeTable'></div>
+                    <button class="btn btn-primary" onclick="PrintElem('#timeTable')">
+                        <span class='glyphicon glyphicon-print'></span>&nbsp;&nbsp;Zeitplan ausdrucken
+                    </button>
+
+                    <div id='timeTable' class="section-to-print"></div>
                 </div>
             </div>
         </div>

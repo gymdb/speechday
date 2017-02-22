@@ -191,7 +191,7 @@ class ViewController extends Controller {
                 <th width='15%'>Uhrzeit</th>
                 <th width='15%'>Raum</th>
                 <th width='50%'>Mein Zeitplan</th>
-                <th width='20%'>Aktion</th>
+                <th width='20%' class='no-print'>Aktion</th>
             </tr>
             </thead>
             <tbody>
@@ -214,14 +214,14 @@ class ViewController extends Controller {
                         <td><?php echo($timeTd) ?></td>
                         <td></td>
                         <td>PAUSE</td>
-                        <td></td>
+                        <td class='no-print'></td>
                     </tr>
                 <?php else: ?>
                     <tr class='<?php echo($studentAvailable ? 'es-time-table-available' : 'es-time-table-occupied') ?>'>
                         <td><?php echo($timeTd) ?></td>
                         <td><?php echo($roomTd) ?></td>
                         <td><?php echo($studentAvailable ? 'frei' : $bookedSlots[$fromDate]['teacherName']) ?></td>
-                        <td>
+                        <td class='no-print'>
                             <?php if (!$studentAvailable):
                                 $deleteJson = escape(json_encode(array('userId' => $user->getId(), 'slotId' => $bookedSlots[$fromDate]['id'], 'eventId' => $activeEvent->getId(), 'typeId' => $typeId)));
                                 ?>
