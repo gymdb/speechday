@@ -100,7 +100,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `userName`, `passwordHash`, `firstName`, `lastName`, `class`, `role`) VALUES
-(1, 'admin', 'a8608e013bfc63291d3eab802172bd1b1649d5b4', 'AdminVN', 'AdminNN', '', 'admin');
+(1, 'admin', 'a8608e013bfc63291d3eab802172bd1b1649d5b4', 'AdminVN', 'AdminNN', NULL, 'admin');
 
 -- --------------------------------------------------------
 

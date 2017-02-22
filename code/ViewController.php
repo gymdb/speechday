@@ -416,7 +416,7 @@ class ViewController extends Controller {
         <form id='newsletterForm'>
             <?php
             $checkAccessData = UserDAO::checkAccessData();
-            $filename = 'uploads/' . AuthenticationManager::getAuthenticatedUser()->getId() . '/newsletter_filled.odt';
+            $filename = 'uploads/newsletter_filled.odt';
             $fileExists = file_exists($filename);
             if ($checkAccessData) { ?>
                 <button type='button' class='btn btn-primary' id='btn-create-newsletter'>

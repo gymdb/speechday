@@ -196,8 +196,7 @@ class Controller {
     }
 
     protected function uploadFileAs($name, $tmpName) {
-        $user = AuthenticationManager::getAuthenticatedUser();
-        $folder = 'uploads' . DIRECTORY_SEPARATOR . $user->getId();
+        $folder = 'uploads';
         if (!file_exists($folder)) {
             mkdir($folder, 0777, true);
         }
@@ -421,13 +420,13 @@ class Controller {
 
         $user = AuthenticationManager::getAuthenticatedUser();
 
-        if (!file_exists('uploads/' . $user->getId() . '/newsletter.odt')) {
+        if (!file_exists('uploads/newsletter.odt')) {
             echo 'Keine Rundbrief-Vorlage vorhanden! Bitte lade zuerst eine hoch!';
             return false;
         }
 
-        $newFileName = 'uploads/' . $user->getId() . '/newsletter_filled.odt';
-        copy('uploads/' . $user->getId() . '/newsletter.odt', $newFileName);
+        $newFileName = 'uploads/newsletter_filled.odt';
+        copy('uploads/newsletter.odt', $newFileName);
 
         $zip = new ZipArchive;
         $fileToModify = 'content.xml';
@@ -456,8 +455,7 @@ class Controller {
     }
 
     protected function action_deleteNewsletter() {
-        $user = AuthenticationManager::getAuthenticatedUser();
-        $newsletterPath = 'uploads/' . $user->getId() . '/newsletter_filled.odt';
+        $newsletterPath = 'uploads/newsletter_filled.odt';
 
         if (!file_exists($newsletterPath)) {
             echo 'success';
