@@ -263,10 +263,10 @@ class ViewController extends Controller {
         }
     }
 
-    private function printTableForTeacher($teacher, $isFullView, $headerInfo = false) {
+    private function printTableForTeacher($teacher, $isFullView, $adminPrint = false) {
         $activeEvent = EventDAO::getActiveEvent();
         $headerText = "Meine Termine";
-        if ($headerInfo == true) {
+        if ($adminPrint) {
             $headerText = "Termine für " . $teacher->getFirstName() . " " . $teacher->getLastName();
             $room = RoomDAO::getRoomForTeacherId($teacher->getId());
             if ($room != null) {
@@ -287,7 +287,7 @@ class ViewController extends Controller {
         }
 
         $bookedSlots = SlotDAO::getBookedSlotsForTeacher($activeEvent->getId(), $teacher->getId());
-        if (count($bookedSlots) <= 0) {
+        if (!$adminPrint && (count($bookedSlots) <= 0)) {
             echo($noSlotsFoundWarning);
             return;
         }
