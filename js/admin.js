@@ -463,3 +463,22 @@ $(document).on('click', '#deleteStatisticsForm .btn', function (event) {
         }
     });
 });
+
+$(document).on('click', '#print-panel', function (event) {
+    loadTimeTable();
+});
+
+function loadTimeTable(typeId) {
+    var timeTable = $('#adminTimeTable');
+    $.ajax({
+        url: 'viewController.php?action=getAdminTimeTable',
+        dataType: 'html',
+        type: 'GET',
+        success: function (data, textStatus, jqXHR) {
+            timeTable.html(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            timeTable.html('<h3>Es ist ein Fehler aufgetreten!<br>Bitte versuche es später erneut!</h3>');
+        }
+    });
+}

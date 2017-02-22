@@ -58,3 +58,11 @@ td {
 .es-time-table-occupied {
     background-color: #D4999F;
 }
+
+.pagebreak {
+    page-break-before: always;
+}
+
+#printHeader {
+    text-align: center;
+}

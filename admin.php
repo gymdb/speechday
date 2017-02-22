@@ -241,6 +241,25 @@ include_once 'inc/header.php';
             </div>
         </div>
 
+        <div id="print-panel" class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#accordion' href='#collapse7'>
+                        Zeitpläne ausdrucken
+                    </a>
+                </h4>
+            </div>
+            <div id='collapse7' class='panel-collapse collapse'>
+                <div class='panel-body'>
+                    <button class="btn btn-primary" onclick="PrintElem('#adminTimeTable', '<?php echo escape(getActiveSpeechdayText()); ?>')">
+                        <span class='glyphicon glyphicon-print'></span>&nbsp;&nbsp;Zeitpläne ausdrucken
+                    </button>
+
+                    <div id='adminTimeTable' class="section-to-print no-online-display"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

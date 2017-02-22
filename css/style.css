@@ -116,3 +116,7 @@ body {
         top: 0;
     }
 }
+
+.no-online-display {
+    display: none;
+}

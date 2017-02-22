@@ -13,14 +13,12 @@ function showMessage(element, type, message) {
     element.delay(5000).fadeOut(400);
 }
 
-function PrintElem(elem) {
-    Popup($(elem).html());
-}
+function PrintElem(elem, pageTitle) {
+    var data = $(elem).html();
 
-function Popup(data) {
-    var printWindow = window.open('www.dachsberg.at/ESV', 'Mein Elternsprechtag', '');
+    var printWindow = window.open('www.dachsberg.at', pageTitle, '');
     var doc = printWindow.document;
-    doc.write("<html><head><title>Mein Elternsprechtag</title>");
+    doc.write("<html><head><title>" + pageTitle + "</title>");
     doc.write("<link href='css/print.css' rel='stylesheet' type='text/css' media='print' />");
     doc.write("</head><body>");
     doc.write(data);

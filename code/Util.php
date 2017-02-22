@@ -93,3 +93,8 @@ function getActionString($actionId) {
             return 'Unbekannte Aktion';
     }
 }
+
+function getActiveSpeechdayText() {
+    $activeEvent = EventDAO::getActiveEvent();
+    return "Elternsprechtag am " . toDate($activeEvent->getDateFrom(), 'd.m.Y');
+}

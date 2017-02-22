@@ -183,7 +183,9 @@ class ViewController extends Controller {
         $rooms = RoomDAO::getAllRooms();
 
         ?>
-        <h3>Meine Termine für den <?php echo(toDate($activeEvent->getDateFrom(), 'd.m.Y')) ?></h3>
+        <div id="printHeader">
+            <h3>Meine Termine für den <?php echo(toDate($activeEvent->getDateFrom(), 'd.m.Y')) ?></h3>
+        </div>
 
         <table class='table table-hover es-time-table'>
             <thead>
@@ -246,16 +248,45 @@ class ViewController extends Controller {
         $typeId = $_REQUEST['typeId'];
         $isFullView = $typeId == 2;
 
-        $user = AuthenticationManager::getAuthenticatedUser();
-        $activeEvent = EventDAO::getActiveEvent();
+        $teacher = AuthenticationManager::getAuthenticatedUser();
 
-        $noSlotsFoundWarning = '<h3>Keine Termine vorhanden!</h3>';
-        if ($user == null || $activeEvent == null) {
+        $this->printTableForTeacher($teacher, $isFullView);
+    }
+
+    public function action_getAdminTimeTable() {
+        $teachers = UserDAO::getUsersForRole('teacher');
+        foreach ($teachers as $teacher) {
+            $this->printTableForTeacher($teacher, true, true);
+            ?>
+            <div class="pageBreak"></div>
+            <?php
+        }
+    }
+
+    private function printTableForTeacher($teacher, $isFullView, $headerInfo = false) {
+        $activeEvent = EventDAO::getActiveEvent();
+        $headerText = "Meine Termine";
+        if ($headerInfo == true) {
+            $headerText = "Termine für " . $teacher->getFirstName() . " " . $teacher->getLastName();
+            $room = RoomDAO::getRoomForTeacherId($teacher->getId());
+            if ($room != null) {
+                $headerText .= " (Raum: " . $room->getRoomNumber() . " | " . $room->getName() . ")";
+            }
+        }
+
+        ?>
+        <div id="printHeader">
+            <h3><?php echo escape($headerText); ?></h3>
+        </div>
+        <?php
+
+        $noSlotsFoundWarning = '<div id="printHeader"><h3>Keine Termine vorhanden!</h3></div>';
+        if ($teacher == null || $activeEvent == null) {
             echo($noSlotsFoundWarning);
             return;
         }
 
-        $bookedSlots = SlotDAO::getBookedSlotsForTeacher($activeEvent->getId(), $user->getId());
+        $bookedSlots = SlotDAO::getBookedSlotsForTeacher($activeEvent->getId(), $teacher->getId());
         if (count($bookedSlots) <= 0) {
             echo($noSlotsFoundWarning);
             return;
@@ -264,8 +295,6 @@ class ViewController extends Controller {
         $slots = SlotDAO::calculateSlots($activeEvent, true);
 
         ?>
-        <h3>Meine Termine</h3>
-
         <table class='table table-hover es-time-table'>
             <thead>
             <tr>
@@ -282,18 +311,18 @@ class ViewController extends Controller {
                 ?>
 
                 <?php if ($isFullView || !$teacherAvailable): ?>
-                <?php if ($slot->getType() == 2): ?>
-                    <tr class='es-time-table-break'>
-                        <td><?php echo($timeTd) ?></td>
-                        <td>PAUSE</td>
-                    </tr>
-                <?php else: ?>
-                    <tr class='<?php echo($teacherAvailable ? 'es-time-table-available' : 'es-time-table-occupied') ?>'>
-                        <td><?php echo($timeTd) ?></td>
-                        <td><?php echo($teacherAvailable ? 'frei' : $bookedSlots[$fromDate]['studentName']) ?></td>
-                    </tr>
+                    <?php if ($slot->getType() == 2): ?>
+                        <tr class='es-time-table-break'>
+                            <td><?php echo($timeTd) ?></td>
+                            <td>PAUSE</td>
+                        </tr>
+                    <?php else: ?>
+                        <tr class='<?php echo($teacherAvailable ? 'es-time-table-available' : 'es-time-table-occupied') ?>'>
+                            <td><?php echo($timeTd) ?></td>
+                            <td><?php echo($teacherAvailable ? 'frei' : $bookedSlots[$fromDate]['studentName']) ?></td>
+                        </tr>
+                    <?php endif; ?>
                 <?php endif; ?>
-            <?php endif; ?>
 
             <?php endforeach; ?>
 
