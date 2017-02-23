@@ -6,8 +6,16 @@
 
 @page {
     size: 210mm 297mm;
-    margin: 50px;
+    margin: 40px;
     width: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+h3 {
+    margin: 0 0 15px;
 }
 
 table {
