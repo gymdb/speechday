@@ -12,7 +12,7 @@ $(document).ready(function () {
 $(document).on('click', '#btn-change-attendance', function () {
     $('#changeAttendanceForm').submit(function (e) {
         var postData = $(this).serializeArray();
-        postData = postData.concat({name: 'action', value: 'changeAttendance'})
+        postData = postData.concat({name: 'action', value: 'changeAttendance'});
 
         var formURL = 'controller.php';
         $.ajax({

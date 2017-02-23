@@ -51,18 +51,17 @@ class SlotDAO extends AbstractDAO {
         LogDAO::log($userId, LogDAO::LOG_ACTION_CHANGE_ATTENDANCE, $info);
     }
 
-    public static function getAttendanceForUser($userId) {
-        $activeEvent = EventDAO::getActiveEvent();
-        if ($activeEvent == null) {
+    public static function getAttendanceForUser($userId, $event) {
+        if ($event == null) {
             return null;
         }
 
         $attendance = null;
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT MIN(dateFrom) AS `from`, MAX(dateTo) AS `to` FROM slot WHERE eventId = ? AND teacherId = ? AND available = 1;', array($activeEvent->getId(), $userId));
+        $res = self::query($con, 'SELECT MIN(dateFrom) AS `from`, MAX(dateTo) AS `to` FROM slot WHERE eventId = ? AND teacherId = ? AND available = 1;', array($event->getId(), $userId));
 
         if ($a = self::fetchObject($res)) {
-            $attendance = array('date' => $activeEvent->getDateFrom(), 'from' => $a->from, 'to' => $a->to, 'eventId' => $activeEvent->getId());
+            $attendance = array('date' => $event->getDateFrom(), 'from' => $a->from, 'to' => $a->to, 'eventId' => $event->getId());
         }
         self::close($res);
 

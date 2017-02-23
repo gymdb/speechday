@@ -26,24 +26,6 @@ class ViewController extends Controller {
         $this->$method();
     }
 
-    public function action_attendance() {
-        $user = AuthenticationManager::getAuthenticatedUser();
-        $attendance = SlotDAO::getAttendanceForUser($user->getId());
-
-        if ($attendance != null) {
-            if ($attendance['to'] - $attendance['from'] == 0) {
-                $output = escape('Du bist am ' . date('d.m.Y', $attendance['date']) . ' nicht anwesend.');
-            } else {
-                $output = escape('Du bist am ' . date('d.m.Y', $attendance['date']) . ' von ' . date('H:i', $attendance['from']) . ' bis ' . date('H:i', $attendance['to']) . ' anwesend.');
-            }
-        } else {
-            $output = escape('Es gibt momentan keinen aktuellen Elternsprechtag, für den eine Anwesenheit eingestellt werden könnte.');
-        }
-
-        echo $output . '<br><br>';
-        return $attendance;
-    }
-
     private function checkIfTeacherIsBooked($teacherId, $bookedSlots) {
         foreach ($bookedSlots as $slot) {
             if (in_array($teacherId, $slot)) {
@@ -413,14 +395,16 @@ class ViewController extends Controller {
                 $infoOutput = '';
                 if ($logInfo != null) {
                     $event = EventDAO::getEventForId($logInfo['eventId']);
-                    if ($log->getAction() == LogDAO::LOG_ACTION_CHANGE_ATTENDANCE) {
-                        $infoOutput = 'Sprechtag: ' . escape($event->getName()) .
-                                      '<br>anwesend von: ' . escape(toDate($logInfo['fromTime'], 'H:i')) .
-                                      '<br>anwesend bis: ' . escape(toDate($logInfo['toTime'], 'H:i'));
-                    } else {
-                        $slot = SlotDAO::getSlotForId($logInfo['slotId']);
-                        $infoOutput = 'Sprechtag: ' . escape($event->getName()) . '<br>Termin: ' .
-                                      escape(toDate($slot->getDateFrom(), 'H:i'));
+                    if ($event != null) {
+                        if ($log->getAction() == LogDAO::LOG_ACTION_CHANGE_ATTENDANCE) {
+                            $infoOutput = 'Sprechtag: ' . escape($event->getName()) .
+                                          '<br>anwesend von: ' . escape(toDate($logInfo['fromTime'], 'H:i')) .
+                                          '<br>anwesend bis: ' . escape(toDate($logInfo['toTime'], 'H:i'));
+                        } else {
+                            $slot = SlotDAO::getSlotForId($logInfo['slotId']);
+                            $infoOutput = 'Sprechtag: ' . escape($event->getName()) . '<br>Termin: ' .
+                                          escape(toDate($slot->getDateFrom(), 'H:i'));
+                        }
                     }
                 }
                 ?>
@@ -588,6 +572,93 @@ class ViewController extends Controller {
             <a href='<?php echo($filePath) ?>' type='<?php echo($mimeType) ?>' download><?php echo escape($typeText); ?></a>
             <?php echo($infos) ?>
         </div>
+        <?php
+    }
+
+    public function action_attendance() {
+        $user = AuthenticationManager::getAuthenticatedUser();
+        $event = EventDAO::getActiveEvent();
+
+        return $this->getAttendance($user, $event);
+    }
+
+    public function action_attendanceParametrized() {
+        $userId = $_REQUEST['userId'];
+        $eventId = $_REQUEST['eventId'];
+        $user = UserDAO::getUserForId($userId);
+        $event = EventDAO::getEventForId($eventId);
+
+        return $this->getAttendance($user, $event, true);
+    }
+
+    private function getAttendance($user, $event, $named = false) {
+        $attendance = SlotDAO::getAttendanceForUser($user->getId(), $event);
+        $salutation = 'Du bist am ';
+        if ($named) {
+            $salutation = $user->getFirstName() . ' ' . $user->getLastName() . ' ist am ';
+        }
+
+        if ($attendance != null) {
+            if ($attendance['to'] - $attendance['from'] == 0) {
+                $output = escape($salutation . date('d.m.Y', $attendance['date']) . ' nicht anwesend.');
+            } else {
+                $output = escape($salutation . date('d.m.Y', $attendance['date']) . ' von ' . date('H:i', $attendance['from']) . ' bis ' . date('H:i', $attendance['to']) . ' anwesend.');
+            }
+        } else {
+            $output = escape('Es gibt momentan keinen aktuellen Elternsprechtag, für den eine Anwesenheit eingestellt werden könnte.');
+        }
+
+        echo $output . '<br><br>';
+        return $attendance;
+    }
+
+    public function action_changeAttendance() {
+        $userId = $_REQUEST['userId'];
+        $eventId = $_REQUEST['eventId'];
+        $user = UserDAO::getUserForId($userId);
+        $event = EventDAO::getEventForId($eventId);
+        ?>
+        <h4>
+        Aktuelle Anwesenheit
+        </h4>
+        <p id='attendance'>
+            <?php $attendance = $this->getAttendance($user, $event, true); ?>
+        </p>
+
+        <?php if ($attendance != null): ?>
+        <h4>
+            Anwesenheit ändern
+        </h4>
+        <form id='changeAttendanceForm'>
+            <input type='hidden' name='userId' value='<?php echo(escape($userId)) ?>'>
+            <input type='hidden' name='eventId' value='<?php echo(escape($attendance['eventId'])) ?>'>
+            <div class='form-group'>
+                <label for='inputFromTime'>Von</label>
+                <select class='form-control' id='inputSlotDuration' name='inputFromTime'>
+                    <?php echo(getDateOptions($attendance, true)); ?>
+                </select>
+            </div>
+
+            <div class='form-group'>
+                <label for='inputToTime'>Bis</label>
+                <select class='form-control' id='inputSlotDuration' name='inputToTime'>
+                    <?php echo(getDateOptions($attendance, false)); ?>
+                </select>
+            </div>
+
+            <button type='submit' class='btn btn-primary' id='btn-change-attendance'>
+                Anwesenheit für <?php echo escape($user->getFirstName() . ' ' . $user->getLastName()); ?> ändern
+            </button>
+        </form>
+        <?php endif;
+    }
+
+    public function action_getActiveEventContainer() {
+        $event = EventDAO::getActiveEvent();
+        $displayText = $event->getName() . ' am ' . toDate($event->getDateFrom(), 'd.m.Y') . ' (mit ' . $event->getSlotTime() . '-Minuten-Intervallen)';
+        ?>
+            <p id='activeSpeechdayText'><b>Aktiver Sprechtag:</b> <?php echo escape($displayText); ?></p>
+            <input type='hidden' id='activeEventId' value='<?php echo escape($event->getId()); ?>'>
         <?php
     }
 }

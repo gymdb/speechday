@@ -1,6 +1,7 @@
 $(document).ready(function () {
-
     loadChangeUserForm('createUser');
+    displayActiveEvent();
+    updateUploadInfos();
 
     $(document).on('click', '#btn-create-event', function () {
         validateForm();
@@ -51,8 +52,6 @@ $(document).ready(function () {
     $("#inputUploadType").change(function () {
         updateUploadInfos();
     });
-
-    updateUploadInfos();
 });
 
 function updateUploadInfos() {
@@ -195,6 +194,7 @@ $(document).on('click', '#btn-change-active-event', function (event) {
             success: function (data, textStatus, jqXHR) {
                 if (data.indexOf('success') > -1) {
                     showMessage(message, 'success', 'Der aktive Elternsprechtag wurde erfolgreich gesetzt!');
+                    displayActiveEvent();
                 } else {
                     showMessage(message, 'danger', 'Der aktive Elternsprechtag konnte nicht gesetzt werden!');
                 }
@@ -482,3 +482,67 @@ function loadTimeTable(typeId) {
         }
     });
 }
+
+function displayAttendance() {
+    var teacherSelect = $('#selectTeacher');
+
+    var selectedTeacher = teacherSelect.find('option:selected');
+    var user = $.parseJSON(selectedTeacher.val());
+    var userId = user.id;
+    var eventId = $("#activeEventId").val();
+
+    $('#changeAttendanceTime').load('viewController.php?action=changeAttendance&userId=' + userId + '&eventId=' + eventId);
+}
+
+function displayActiveEvent() {
+    var activeEventContainer = $('#activeEventContainer');
+    $.ajax({
+        url: 'viewController.php?action=getActiveEventContainer',
+        dataType: 'html',
+        type: 'GET',
+        success: function (data, textStatus, jqXHR) {
+            activeEventContainer.html(data);
+            displayAttendance();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            activeEventContainer.html('<p>Es ist momentan kein Elternsprechtag als aktiv gesetzt!</p>');
+        }
+    });
+}
+
+$(document).on('change', '#selectTeacher', function (event) {
+    displayAttendance();
+});
+
+$(document).on('click', '#btn-change-attendance', function () {
+    $('#changeAttendanceForm').submit(function (e) {
+        var postData = $(this).serializeArray();
+        postData = postData.concat({name: 'action', value: 'changeAttendance'});
+
+        var userId = postData[0].value;
+        var eventId = postData[1].value;
+
+        var formURL = 'controller.php';
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                var message = $('#changeTimeMessage');
+                if (data.indexOf('success') > -1) {
+                    $('#attendance').load('viewController.php?action=attendanceParametrized&userId=' + userId + '&eventId=' + eventId);
+
+                    showMessage(message, 'success', 'Die Anwesenheit wurde erfolgreich geändert!');
+                } else {
+                    showMessage(message, 'danger', 'Die Anwesenheit konnte nicht geändert werden!');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showMessage(message, 'danger', 'Die Anwesenheit konnte nicht geändert werden!');
+            }
+        });
+        e.preventDefault();
+    });
+
+    return true;
+});

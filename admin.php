@@ -158,6 +158,43 @@ include_once 'inc/header.php';
         <div class='panel panel-default'>
             <div class='panel-heading'>
                 <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#accordion' href='#collapseTimeManagement'>
+                        Anwesenheitszeitverwaltung
+                    </a>
+                </h4>
+            </div>
+            <div id='collapseTimeManagement' class='panel-collapse collapse'>
+                <div class='panel-body'>
+                    <div id="activeEventContainer"></div>
+                    <hr>
+
+                    <div class='form-group'>
+                        <h4>Lehrer</h4>
+                        <select class='form-control' id='selectTeacher'>
+                            <?php
+                            $teachers = UserDAO::getUsersForRole('teacher');
+                            foreach ($teachers as $teacher) : ?>
+                                <?php
+                                $val = $teacher->__toString();
+                                ?>
+                                <option value='<?php echo(escape($val)) ?>'>
+                                    <?php echo(escape($teacher->getLastName() . ' ' . $teacher->getFirstName())) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <hr>
+
+                    <div id="changeAttendanceTime"></div>
+
+                    <div class='message' id='changeTimeMessage'></div>
+                </div>
+            </div>
+        </div>
+
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
                     <a data-toggle='collapse' data-parent='#accordion' href='#collapse4'>
                         Benutzerverwaltung
                     </a>
