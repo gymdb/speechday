@@ -216,6 +216,12 @@ class Controller {
         $users = array();
         $accessData = array();
         $rooms = array();
+        $userNames = array();
+
+        $duplicateUserError = array(
+            'success' => false,
+            'message' => 'Die Benutzernamen sind nicht eindeutig! Bitte vergib eindeutige Benutzernamen!'
+        );
 
         $csv = file_get_contents($filename);
         $isUTF8 = mb_detect_encoding($csv, mb_detect_order(), TRUE) == 'UTF-8';
@@ -243,13 +249,33 @@ class Controller {
                     $userName = trim($row[3]);
                     $password = trim($row[4]);
 
+                    if (!$this->checkForUniqueUserName($userName, $userNames)) {
+                        fclose($fp);
+                        return $duplicateUserError;
+                    }
+                    $userNames[] = $userName;
+
                     $roomNumber = trim($row[5]);
                     $roomName = trim($row[6]);
                     if ($roomNumber != '' && $roomName != '') {
                         $rooms[$userName] = array($roomNumber, $roomName);
                     }
                 } else {
-                    $userName = trim($row[3]) == '' ? $this->generateUserName(trim($row[0]), trim($row[1])) : trim($row[3]);
+                    $userName = trim($row[3]);
+
+                    $tries = 0;
+                    if ($userName == '') {
+                        do {
+                            $userName = $this->generateUserName(trim($row[0]), trim($row[1]));
+                            $tries++;
+                        } while ((!$this->checkForUniqueUserName($userName, $userNames)) && ($tries < 500));
+                    }
+                    if (!$this->checkForUniqueUserName($userName, $userNames)) {
+                        fclose($fp);
+                        return $duplicateUserError;
+                    }
+                    $userNames[] = $userName;
+
                     $password = trim($row[4]) == '' ? $this->generateRandomPassword() : trim($row[4]);
 
                     $accessData[] = array($userName, $password);
@@ -285,6 +311,10 @@ class Controller {
             'success' => true,
             'message' => 'Die CSV Datei wurde erfolgreich importiert!'
         );
+    }
+
+    private function checkForUniqueUserName($userName, $userNames) {
+        return !in_array($userName, $userNames);
     }
 
     protected function validateFileExtension($ext, $allowed) {

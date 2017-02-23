@@ -96,5 +96,9 @@ function getActionString($actionId) {
 
 function getActiveSpeechdayText() {
     $activeEvent = EventDAO::getActiveEvent();
-    return "Elternsprechtag am " . toDate($activeEvent->getDateFrom(), 'd.m.Y');
+    if ($activeEvent != null) {
+        return "Elternsprechtag am " . toDate($activeEvent->getDateFrom(), 'd.m.Y');
+    } else {
+        return "Es gibt momentan keinen aktiven Elternsrpechtag!";
+    }
 }
