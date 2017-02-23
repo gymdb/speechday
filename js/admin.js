@@ -28,6 +28,7 @@ $(document).ready(function () {
                         if (data.indexOf('success') > -1) {
                             showMessage(message, 'success', 'Der Elternsprechtag wurde erfolgreich angelegt!');
                             loadChangeEventsForm();
+                            displayActiveEvent();
                         } else {
                             showMessage(message, 'danger', 'Der Elternsprechtag konnte nicht angelegt werden!');
                         }
@@ -172,6 +173,9 @@ $(document).on('click', '#btn-upload-file', function (event) {
                     if ($.inArray(uploadType, ['teacher', 'student']) > -1) {
                         $('#csv-preview').load('viewController.php?action=csvPreview&role=' + uploadType, function () {
                             $('#csv-preview').show();
+                            displayActiveEvent();
+                            loadChangeEventsForm();
+                            updateNewsletterForm(false);
                         });
                     }
                 } else {
@@ -230,6 +234,7 @@ $(document).on('click', '#btn-delete-event', function (event) {
                 if (data.indexOf('success') > -1) {
                     showMessage(message, 'success', 'Der Elternsprechtag wurde erfolgreich gelöscht!');
                     loadChangeEventsForm();
+                    displayActiveEvent();
                 } else {
                     showMessage(message, 'danger', 'Der Elternsprechtag konnte nicht gelöscht werden!');
                 }
@@ -273,6 +278,7 @@ $(document).on('click', '#btn-create-user', function (event) {
             success: function (data, textStatus, jqXHR) {
                 if (data.indexOf('success') > -1) {
                     showMessage(message, 'success', 'Der Benutzer wurde erfolgreich erstellt!');
+                    displayActiveEvent();
                 } else {
                     showMessage(message, 'danger', data);
                 }
@@ -301,6 +307,7 @@ $(document).on('click', '#btn-edit-user', function (event) {
             success: function (data, textStatus, jqXHR) {
                 if (data.indexOf('success') > -1) {
                     showMessage(message, 'success', 'Der Benutzer wurde erfolgreich geändert!');
+                    displayActiveEvent();
                 } else {
                     showMessage(message, 'danger', 'Der Benutzer konnte nicht geändert werden!');
                 }
@@ -330,6 +337,7 @@ $(document).on('click', '#btn-delete-user', function (event) {
                 if (data.indexOf('success') > -1) {
                     loadChangeUserForm('changeUser');
                     showMessage(message, 'success', 'Der Benutzer wurde erfolgreich gelöscht!');
+                    displayActiveEvent();
                 } else {
                     showMessage(message, 'danger', 'Der Benutzer konnte nicht gelöscht werden!');
                 }
@@ -393,6 +401,15 @@ $(document).on('change', '#selectUserStats', function (event) {
     $('#statistics').load('viewController.php?action=stats&userId=' + userId);
 });
 
+function updateNewsletterForm(successMessage) {
+    $('#newsletterForm').load('viewController.php?action=getNewsletterForm', function () {
+        if (successMessage) {
+            var newMessage = $('#newsletterMessage');
+            showMessage(newMessage, 'success', successMessage);
+        }
+    });
+}
+
 $(document).on('click', '#newsletterForm .btn', function (event) {
     var message = $('#newsletterMessage');
     var id = $(this).attr('id');
@@ -428,10 +445,8 @@ $(document).on('click', '#newsletterForm .btn', function (event) {
         data: postData,
         success: function (data, textStatus, jqXHR) {
             if (data.indexOf('success') > -1) {
-                $('#newsletterForm').load('viewController.php?action=getNewsletterForm', function () {
-                    var newMessage = $('#newsletterMessage');
-                    showMessage(newMessage, 'success', successMessage);
-                });
+                updateNewsletterForm(successMessage);
+                displayActiveEvent();
             } else {
                 showMessage(message, 'danger', data);
             }

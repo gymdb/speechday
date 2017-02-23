@@ -593,10 +593,14 @@ class ViewController extends Controller {
     }
 
     private function getAttendance($user, $event, $named = false) {
-        $attendance = SlotDAO::getAttendanceForUser($user->getId(), $event);
+        $attendance = null;
         $salutation = 'Du bist am ';
-        if ($named) {
-            $salutation = $user->getFirstName() . ' ' . $user->getLastName() . ' ist am ';
+
+        if ($user != null) {
+            $attendance = SlotDAO::getAttendanceForUser($user->getId(), $event);
+            if ($named) {
+                $salutation = $user->getFirstName() . ' ' . $user->getLastName() . ' ist am ';
+            }
         }
 
         if ($attendance != null) {
@@ -656,10 +660,15 @@ class ViewController extends Controller {
 
     public function action_getActiveEventContainer() {
         $event = EventDAO::getActiveEvent();
-        $displayText = $event->getName() . ' am ' . toDate($event->getDateFrom(), 'd.m.Y') . ' (mit ' . $event->getSlotTime() . '-Minuten-Intervallen)';
+        $displayText = "kein aktiver Elternsrpechtag vorhanden!";
+        $activeEventId = -1;
+        if ($event != null) {
+            $displayText = $event->getName() . ' am ' . toDate($event->getDateFrom(), 'd.m.Y') . ' (mit ' . $event->getSlotTime() . '-Minuten-Intervallen)';
+            $activeEventId = $event->getId();
+        }
         ?>
             <p id='activeSpeechdayText'><b>Aktiver Sprechtag:</b> <?php echo escape($displayText); ?></p>
-            <input type='hidden' id='activeEventId' value='<?php echo escape($event->getId()); ?>'>
+            <input type='hidden' id='activeEventId' value='<?php echo escape($activeEventId); ?>'>
         <?php
     }
 }
