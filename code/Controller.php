@@ -303,9 +303,13 @@ class Controller {
         $info = json_encode(array('eventId' => $eventId, 'slotId' => $slotId));
         LogDAO::log($userId, LogDAO::LOG_ACTION_BOOK_SLOT, $info);
 
-        $success = SlotDAO::setStudentToSlot($eventId, $slotId, $userId);
-        if ($success) {
-            echo('success');
+        $result = SlotDAO::setStudentToSlot($eventId, $slotId, $userId);
+        if ($result['success']) {
+            if ($result['rowCount'] > 0) {
+                echo('success');
+            } else {
+                echo('dirtyRead');
+            }
         } else {
             echo('error');
         }

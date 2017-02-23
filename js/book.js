@@ -25,6 +25,9 @@ $(document).on('click', '.btn-book', function (event) {
         success: function (data, textStatus, jqXHR) {
             if (data.indexOf('success') > -1) {
                 loadTimeTable(teacherId);
+            } else if (data.indexOf('dirtyRead') > -1) {
+                loadTimeTable(teacherId);
+                alert("WARNUNG!\n\nDer gewünschte Termin wurde in der Zwischenzeit vergeben! Bitte wählen Sie einen anderen Termin!");
             } else {
                 $('#timeTable').html(errorText);
             }

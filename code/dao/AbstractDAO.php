@@ -26,7 +26,10 @@ abstract class AbstractDAO {
 		$success = $statement->execute();
 
         if ($checkSuccess) {
-            return array('success' => $success, 'statement' => $statement);
+            return array(
+                'success' => $success,
+                'statement' => $statement,
+                'rowCount' => $statement->rowCount());
         } else {
             return $statement;
         }
