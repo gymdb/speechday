@@ -131,6 +131,9 @@ function validateForm() {
 $(document).on('click', '#btn-upload-file', function (event) {
     var uploadFileForm = $('#uploadFileForm');
     uploadFileForm.submit(function (e) {
+        e.preventDefault();
+        uploadFileForm.unbind('submit');
+
         var message = $('#uploadFileMessage');
         var data = new FormData();
         $.each($('#input-file')[0].files, function (i, file) {
@@ -145,8 +148,14 @@ $(document).on('click', '#btn-upload-file', function (event) {
         var successMessage = 'Die Rundbrief-Vorlage wurde erfolgreich hochgeladen!';
         if (uploadType == 'teacher') {
             successMessage = 'Die Lehrer wurden erfolgreich importiert!';
+            if (!confirm('WARNUNG!\n\nBeim Import werden die bestehenden Lehrer-Benutzer und bestehenden Elternsprechtage gelöscht! Soll fortgesetzt werden?')) {
+                return;
+            }
         } else if (uploadType == 'student') {
             successMessage = 'Die Schüler wurden erfolgreich importiert!';
+            if (!confirm('WARNUNG!\n\nBeim Import werden die bestehenden Schüler-Benutzer gelöscht! Soll fortgesetzt werden?')) {
+                return;
+            }
         }
 
         var formURL = 'controller.php';
@@ -173,9 +182,6 @@ $(document).on('click', '#btn-upload-file', function (event) {
                 showMessage(message, 'danger', data);
             }
         });
-
-        e.preventDefault();
-        uploadFileForm.unbind('submit');
     });
 });
 
