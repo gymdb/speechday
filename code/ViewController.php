@@ -429,14 +429,22 @@ class ViewController extends Controller {
         <form id='newsletterForm'>
             <?php
             $checkAccessData = UserDAO::checkAccessData();
+            $activeEventExists = EventDAO::getActiveEvent() != null;
             $filename = 'uploads/newsletter_filled.odt';
             $fileExists = file_exists($filename);
-            if ($checkAccessData) { ?>
-                <input type='hidden' id='newsletterExists' value='<?php echo(escape($fileExists)) ?>'>
-                <button type='button' class='btn btn-primary' id='btn-create-newsletter'>
-                    Rundbrief erzeugen
-                </button>
-            <?php } elseif ($fileExists) { ?>
+            if ($checkAccessData) {
+                if ($activeEventExists) { ?>
+                    <input type='hidden' id='newsletterExists' value='<?php echo(escape($fileExists)) ?>'>
+                    <button type='button' class='btn btn-primary' id='btn-create-newsletter'>
+                        Rundbrief erzeugen
+                    </button>
+                <?php } else { ?>
+                    <div class='alert alert-info'>
+                        INFO: Es ist momentan kein Elternsprechtag als aktiv gesetzt!<br>
+                        Setze einen Elternsprechtag als aktiv um einen Rundbrief erzeugen zu können!
+                    </div>
+                <?php }
+            } elseif ($fileExists) { ?>
                 <div class='alert alert-info'>
                     INFO: Um einen neuen Rundbrief zu erstellen, müssen zuerst wieder die Schüler importiert werden!<br>
                     (Falls gewünscht kann zuvor auch eine neue Rundbrief-Vorlage hochgeladen werden.)
@@ -453,8 +461,7 @@ class ViewController extends Controller {
                 </button>
             <?php endif; ?>
 
-            <?php
-                    if ($checkAccessData): ?>
+            <?php if ($checkAccessData): ?>
                 <button type='button' class='btn btn-primary' id='btn-delete-access-data'>
                     Schüler-Zugangsdaten löschen
                 </button>

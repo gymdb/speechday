@@ -29,6 +29,7 @@ $(document).ready(function () {
                             showMessage(message, 'success', 'Der Elternsprechtag wurde erfolgreich angelegt!');
                             loadChangeEventsForm();
                             displayActiveEvent();
+                            updateNewsletterForm(false);
                         } else {
                             showMessage(message, 'danger', 'Der Elternsprechtag konnte nicht angelegt werden!');
                         }
@@ -235,6 +236,7 @@ $(document).on('click', '#btn-delete-event', function (event) {
                     showMessage(message, 'success', 'Der Elternsprechtag wurde erfolgreich gelöscht!');
                     loadChangeEventsForm();
                     displayActiveEvent();
+                    updateNewsletterForm(false);
                 } else {
                     showMessage(message, 'danger', 'Der Elternsprechtag konnte nicht gelöscht werden!');
                 }

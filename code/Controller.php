@@ -472,6 +472,7 @@ class Controller {
             if ($newContents == null) {
                 echo 'Der Rundbrief konnte nicht erstellt werden, da es keinen aktiven Elternsprechtag gibt!';
                 $zip->close();
+                unlink($newFileName);
                 return false;
             }
 
