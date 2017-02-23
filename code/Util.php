@@ -102,3 +102,7 @@ function getActiveSpeechdayText() {
         return "Es gibt momentan keinen aktiven Elternsrpechtag!";
     }
 }
+
+function optionalBreak() {
+    return '<span class="no-print"><br></span><span class="only-print"> - </span>';
+}

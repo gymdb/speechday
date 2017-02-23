@@ -111,7 +111,7 @@ class ViewController extends Controller {
                 $fromDate = $slot->getDateFrom();
                 $teacherAvailable = $slot->getStudentId() == '';
                 $studentAvailable = array_key_exists($fromDate, $bookedSlots) ? false : true;
-                $timeTd = escape(toDate($slot->getDateFrom(), 'H:i')) . '<br>' . escape(toDate($slot->getDateTo(), 'H:i'));
+                $timeTd = escape(toDate($slot->getDateFrom(), 'H:i')) . optionalBreak() . escape(toDate($slot->getDateTo(), 'H:i'));
                 $bookJson = escape(json_encode(array('slotId' => $slot->getId(), 'teacherId' => $teacher->getId(), 'userId' => $user->getId(), 'eventId' => $activeEvent->getId())));
                 ?>
 
@@ -183,12 +183,12 @@ class ViewController extends Controller {
             <?php foreach ($slots as $slot):
                 $fromDate = $slot->getDateFrom();
                 $studentAvailable = array_key_exists($fromDate, $bookedSlots) ? false : true;
-                $timeTd = escape(toDate($slot->getDateFrom(), 'H:i')) . '<br>' . escape(toDate($slot->getDateTo(), 'H:i'));
+                $timeTd = escape(toDate($slot->getDateFrom(), 'H:i')) . optionalBreak() . escape(toDate($slot->getDateTo(), 'H:i'));
 
                 $roomTd = "";
                 if (!$studentAvailable && array_key_exists($bookedSlots[$fromDate]['teacherId'], $rooms)) {
                     $room = $rooms[$bookedSlots[$fromDate]['teacherId']];
-                    $roomTd = escape($room->getRoomNumber()) . '<br>' . escape($room->getName());
+                    $roomTd = escape($room->getRoomNumber()) . optionalBreak() . escape($room->getName());
                 }
                 ?>
 
@@ -289,7 +289,7 @@ class ViewController extends Controller {
             <?php foreach ($slots as $slot):
                 $fromDate = $slot->getDateFrom();
                 $teacherAvailable = array_key_exists($fromDate, $bookedSlots) ? false : true;
-                $timeTd = escape(toDate($slot->getDateFrom(), 'H:i')) . '<br>' . escape(toDate($slot->getDateTo(), 'H:i'));
+                $timeTd = escape(toDate($slot->getDateFrom(), 'H:i')) . optionalBreak() . escape(toDate($slot->getDateTo(), 'H:i'));
                 ?>
 
                 <?php if ($isFullView || !$teacherAvailable): ?>

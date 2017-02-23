@@ -292,7 +292,7 @@ include_once 'inc/header.php';
                         <span class='glyphicon glyphicon-print'></span>&nbsp;&nbsp;Zeitpläne ausdrucken
                     </button>
 
-                    <div id='adminTimeTable' class="section-to-print no-online-display"></div>
+                    <div id='adminTimeTable' class="section-to-print only-print"></div>
                 </div>
             </div>
         </div>

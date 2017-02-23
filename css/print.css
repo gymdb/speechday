@@ -40,9 +40,17 @@ td {
     border-bottom: 1px #000 solid;
 }
 
-.es-time-table th, .es-time-table td {
+.es-time-table th {
     font-weight: bold;
-    height: 55px;
+}
+
+.es-time-table td {
+    font-weight: normal;
+}
+
+.es-time-table th, .es-time-table td {
+    font-size: 10pt;
+    height: 25px;
     text-align: center;
     vertical-align: middle !important;
 }

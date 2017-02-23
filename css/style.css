@@ -30,6 +30,7 @@ body {
     color: #00A2D1;
 }
 
+.form-signin input[type="login"],
 .form-signin input[type="text"],
 .form-signin input[type="password"],
 .form-signin input[type="email"] {
@@ -117,6 +118,6 @@ body {
     }
 }
 
-.no-online-display {
+.only-print {
     display: none;
 }
