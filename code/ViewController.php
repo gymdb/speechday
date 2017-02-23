@@ -274,7 +274,7 @@ class ViewController extends Controller {
             return;
         }
 
-        $slots = SlotDAO::calculateSlots($activeEvent, true);
+        $slots = SlotDAO::getSlotsForTeacherId($activeEvent->getId(), $teacher->getId());
 
         ?>
         <table class='table table-hover es-time-table'>
