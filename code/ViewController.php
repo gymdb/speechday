@@ -432,6 +432,7 @@ class ViewController extends Controller {
             $filename = 'uploads/newsletter_filled.odt';
             $fileExists = file_exists($filename);
             if ($checkAccessData) { ?>
+                <input type='hidden' id='newsletterExists' value='<?php echo(escape($fileExists)) ?>'>
                 <button type='button' class='btn btn-primary' id='btn-create-newsletter'>
                     Rundbrief erzeugen
                 </button>
