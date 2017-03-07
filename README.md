@@ -16,11 +16,12 @@ Be aware that the UI is in german.
 
 As an administrator:
 
-1. Import teachers via a CSV file.
-2. Import student data via a CSV file.
-3. Upload a newsletter template in ODT format.
-4. Create a speechday-event.
-5. Create the newsletter and distribute it among the students / parents.
+1. Make sure that the uploads folder is writeable by the web server process
+2. Import teachers via a CSV file.
+3. Import student data via a CSV file.
+4. Upload a newsletter template in ODT format.
+5. Create a speechday-event.
+6. Create the newsletter and distribute it among the students / parents.
 
 As a teacher (optional):
 
