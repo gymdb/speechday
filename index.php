@@ -1,10 +1,5 @@
 <?php
 
-/*
-Author: Pradeep Khodke
-URL: http://www.codingcage.com/
-*/
-
 require_once('code/Util.php');
 require_once('code/dao/AbstractDAO.php');
 

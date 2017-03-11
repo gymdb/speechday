@@ -162,7 +162,7 @@ class Controller {
     }
 
     private function checkCSVHeader($type, $row) {
-        $constraints['teacher'] = array('Vorname', 'Nachname', 'Klasse', 'Benutzername', 'Passwort', 'Raumnummer', 'Raumname');
+        $constraints['teacher'] = array('Vorname', 'Nachname', 'Klasse', 'Benutzername', 'Passwort', 'Titel', 'Raumnummer', 'Raumname');
         $constraints['student'] = array('Vorname', 'Nachname', 'Klasse', 'Benutzername', 'Passwort');
         $constraints['subject'] = array('ToDo');
 
@@ -254,9 +254,10 @@ class Controller {
                         return $duplicateUserError;
                     }
                     $userNames[] = $userName;
+                    $title = trim($row[5]);
 
-                    $roomNumber = trim($row[5]);
-                    $roomName = trim($row[6]);
+                    $roomNumber = trim($row[6]);
+                    $roomName = trim($row[7]);
                     if ($roomNumber != '' && $roomName != '') {
                         $rooms[$userName] = array($roomNumber, $roomName);
                     }
@@ -275,13 +276,14 @@ class Controller {
                         return $duplicateUserError;
                     }
                     $userNames[] = $userName;
+                    $title='';
 
                     $password = trim($row[4]) == '' ? $this->generateRandomPassword() : trim($row[4]);
 
                     $accessData[] = array($userName, $password);
                 }
 
-                $users[] = array($userName, createPasswordHash($userName, $password), trim($row[0]), trim($row[1]), $class, $role);
+                $users[] = array($userName, createPasswordHash($password), trim($row[0]), trim($row[1]), $class, $role, $title);
             }
         }
 

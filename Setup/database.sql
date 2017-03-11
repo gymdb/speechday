@@ -90,17 +90,19 @@ CREATE TABLE `user` (
   `firstName` varchar(255) COLLATE utf8_bin NOT NULL,
   `lastName` varchar(255) COLLATE utf8_bin NOT NULL,
   `class` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `role` enum('student','teacher','admin') COLLATE utf8_bin NOT NULL DEFAULT 'student'
+  `role` enum('student','teacher','admin') COLLATE utf8_bin NOT NULL DEFAULT 'student',
+  `title` varchar(10) COLLATE utf8_bin DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
 -- Daten für Tabelle `user`
+-- Standardpasswort für den Administrator: admin
 --
 
 INSERT INTO `user` (`id`, `userName`, `passwordHash`, `firstName`, `lastName`, `class`, `role`) VALUES
-(1, 'admin', 'a8608e013bfc63291d3eab802172bd1b1649d5b4', 'AdminVN', 'AdminNN', NULL, 'admin');
+(1, 'admin', '$2y$10$rxHdBYx/Lq2Od6etxBIj7OfMhVwEQpJn4bD.4tCAD/4g7VyTrPAum', 'AdminVN', 'AdminNN', NULL, 'admin');
 
 -- --------------------------------------------------------
 

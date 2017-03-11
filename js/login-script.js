@@ -1,8 +1,3 @@
-/*
- Author: Pradeep Khodke
- URL: http://www.codingcage.com/
- */
-
 $('document').ready(function () {
     /* validation */
     $('#login-form').validate({
@@ -22,9 +17,7 @@ $('document').ready(function () {
         },
         submitHandler: submitForm
     });
-    /* validation */
 
-    /* login submit */
     function submitForm() {
         var data = $('#login-form').serialize();
 
@@ -39,7 +32,7 @@ $('document').ready(function () {
             success: function (response) {
                 if (response == 'ok') {
                     $('#btn-login').html('<img src="img/btn-ajax-loader.gif" height="12px" width="14px" /> &nbsp; Einloggen');
-                    setTimeout(' window.location.href = "home.php"; ', 4000);
+                    setTimeout(' window.location.href = "home.php"; ', 2000);
                 }
                 else {
                     $('#error').fadeIn(1000, function () {
@@ -51,6 +44,5 @@ $('document').ready(function () {
         });
         return false;
     }
-    /* login submit */
 
 });

@@ -19,8 +19,9 @@ class User extends Entity {
     private $lastName;
     private $class;
     private $role;
+    private $title;
 
-    public function __construct($id, $userName, $passwordHash, $firstName, $lastName, $class, $role) {
+    public function __construct($id, $userName, $passwordHash, $firstName, $lastName, $class, $role,$title) {
         parent::__construct($id);
         $this->userName = $userName;
         $this->passwordHash = $passwordHash;
@@ -28,6 +29,7 @@ class User extends Entity {
         $this->lastName = $lastName;
         $this->class = $class;
         $this->role = $role;
+        $this->title = $title;
     }
 
     public function getUserName() {
@@ -54,6 +56,10 @@ class User extends Entity {
         return $this->role;
     }
 
+    public function getTitle() {
+        return $this->title;
+    }
+
     public function __toString() {
         return json_encode(array(
             'id' => $this->getId(),
@@ -62,7 +68,8 @@ class User extends Entity {
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'class' => $this->class,
-            'role' => $this->role
+            'role' => $this->role,
+            'title' => $this->title
         ));
     }
 }

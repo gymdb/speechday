@@ -90,7 +90,7 @@ class ViewController extends Controller {
         }
 
         ?>
-        <h3>Termine für <?php echo(escape($teacher->getFirstName() . ' ' . $teacher->getLastName())) ?></h3>
+        <h3>Termine für <?php echo(escape($teacher->getTitle().' ' .$teacher->getFirstName() . ' ' . $teacher->getLastName())) ?></h3>
 
         <?php if ($room != null): ?>
             <h4>Raum: <?php echo(escape($room->getRoomNumber()) . ' &ndash; ' . escape($room->getName())) ?></h4>
@@ -249,7 +249,7 @@ class ViewController extends Controller {
         $activeEvent = EventDAO::getActiveEvent();
         $headerText = "Meine Termine";
         if ($adminPrint) {
-            $headerText = "Termine für " . $teacher->getFirstName() . " " . $teacher->getLastName();
+            $headerText = "Termine für " . $teacher->getTitle(). " ". $teacher->getFirstName() . " " . $teacher->getLastName();
             $room = RoomDAO::getRoomForTeacherId($teacher->getId());
             if ($room != null) {
                 $headerText .= " (Raum: " . $room->getRoomNumber() . " | " . $room->getName() . ")";
@@ -539,14 +539,14 @@ class ViewController extends Controller {
                     <p>
                     Ein Datensatz muss folgende Elemente besitzen:
                     <br>
-                    Vorname;Nachname;Klasse;Benutzername;Passwort;Raumnummer;Raumname
+                    Vorname;Nachname;Klasse;Benutzername;Passwort;Titel;Raumnummer;Raumname
                     <br><br>
                     Trennzeichen muss der Strichpunkt sein. Raumnummer und Raumname sind optional.
                     <br><br>
                     Beispiele:
                     <ul>
-                        <li>Otto;Normalverbraucher;1C;ottonormal;user987;A001;Konferenzzimmer</li>
-                        <li>John;Doe;2E;johnny456;some_pw!;;</li>
+                        <li>Otto;Normalverbraucher;1C;ottonormal;user987;Mag.;A001;Konferenzzimmer</li>
+                        <li>John;Doe;2E;johnny456;some_pw!;BEd.;;</li>
                     </ul>
                     </p>';
                 break;

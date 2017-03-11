@@ -7,7 +7,7 @@
 <div class='container'>
     <div id='tabs-1'>
         <h1>Meine gebuchten Termine</h1>
-        <h3>Hier kannst du deine gebuchten Termine einsehen und löschen!<br><br></h3>
+        <h3>Hier können Sie Ihre gebuchten Termine einsehen und löschen!<br><br></h3>
     </div>
 </div>
 

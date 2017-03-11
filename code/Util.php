@@ -36,9 +36,10 @@ function action($action, $params = null) {
 	echo $res;
 }
 
-function createPasswordHash($userName, $password) {
-    return hash('sha1', "($userName|$password)");
+function createPasswordHash($password) {
+    return password_hash($password, PASSWORD_DEFAULT);
 }
+
 
 function getDateOptions($attendance, $dateFrom = true) {
     $activeEvent = EventDAO::getActiveEvent();
@@ -67,7 +68,7 @@ function getTeacherOptions() {
 
     $options = '<option value="-1">Bitte wähle einen Lehrer aus ...</option>';
     foreach ($teachers as $teacher) {
-        $options .= sprintf('<option value="%s">%s</option>', $teacher->getId(), $teacher->getLastName() . ' ' . $teacher->getFirstName());
+        $options .= sprintf('<option value="%s">%s</option>', $teacher->getId(), $teacher->getLastName() . ' ' . $teacher->getFirstName().' '.$teacher->getTitle());
     }
 
     return $options;

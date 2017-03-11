@@ -4,14 +4,14 @@ require_once('AbstractDAO.php');
 
 class UserDAO extends AbstractDAO {
 
-    const MIN_PASSWORD_LENGTH = 5;
+    const MIN_PASSWORD_LENGTH = 8;
 
     public static function getUserForId($userId) {
         $user = null;
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT id, userName, passwordHash, firstName, lastName, class, role FROM user WHERE id = ?;', array($userId));
+        $res = self::query($con, 'SELECT id, userName, passwordHash, firstName, lastName, class, role, title FROM user WHERE id = ?;', array($userId));
         if ($u = self::fetchObject($res)) {
-            $user = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role);
+            $user = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role, $u->title);
         }
         self::close($res);
         return $user;
@@ -20,10 +20,10 @@ class UserDAO extends AbstractDAO {
     public static function getUserForUserName($userName) {
         $user = null;
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT id, userName, passwordHash, firstName, lastName, class, role FROM user WHERE userName = ?;', array($userName));
+        $res = self::query($con, 'SELECT id, userName, passwordHash, firstName, lastName, class, role, title  FROM user WHERE userName = ?;', array($userName));
 
         if ($u = self::fetchObject($res)) {
-            $user = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role);
+            $user = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role, $u->title);
         }
         self::close($res);
         return $user;
@@ -40,11 +40,11 @@ class UserDAO extends AbstractDAO {
             $params[] = $limit;
         }
 
-        $query = sprintf('SELECT id, userName, passwordHash, firstName, lastName, class, role FROM user WHERE role = ? %s;', $orderAndLimitPhrase);
+        $query = sprintf('SELECT id, userName, passwordHash, firstName, lastName, class, role, title FROM user WHERE role = ? %s;', $orderAndLimitPhrase);
         $res = self::query($con, $query, $params);
 
         while ($u = self::fetchObject($res)) {
-            $users[] = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role);
+            $users[] = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role, $u->title);
         }
         self::close($res);
         return $users;
@@ -69,7 +69,7 @@ class UserDAO extends AbstractDAO {
 
         while ($u = self::fetchObject($res)) {
             $users[] = array(
-                'student' => new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role),
+                'student' => new User($u->id, $u->userName, $u->password, $u->firstName, $u->lastName, $u->class, $u->role, ''),
                 'password' => $u->password
             );
         }
@@ -86,10 +86,10 @@ class UserDAO extends AbstractDAO {
     public static function getUsers() {
         $users = array();
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT id, userName, passwordHash, firstName, lastName, class, role FROM user ORDER BY LOWER(lastName), LOWER(firstName);', array());
+        $res = self::query($con, 'SELECT id, userName, passwordHash, firstName, lastName, class, role, title FROM user ORDER BY LOWER(lastName), LOWER(firstName);', array());
 
         while ($u = self::fetchObject($res)) {
-            $users[] = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role);
+            $users[] = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role, $u->title);
         }
         self::close($res);
         return $users;
@@ -105,7 +105,7 @@ class UserDAO extends AbstractDAO {
 
         // register user in database
         $con = self::getConnection();
-        $passwordHash = createPasswordHash($userName, $password);
+        $passwordHash = createPasswordHash($password);
 
         self::getConnection()->beginTransaction();
         self::query($con, 'INSERT INTO user (userName, passwordHash, firstName, lastName, class, role) VALUES (?, ?, ?, ?, ?, ?);', array($userName, $passwordHash, $firstName, $lastName, $class, $role));
@@ -132,12 +132,12 @@ class UserDAO extends AbstractDAO {
 
     public static function bulkInsertUsers($users, $rooms = null) {
         $con = self::getConnection();
-        $userSth = $con->prepare('INSERT INTO user (userName, passwordHash, firstName, lastName, class, role) VALUES (?, ?, ?, ?, ?, ?);');
+        $userSth = $con->prepare('INSERT INTO user (userName, passwordHash, firstName, lastName, class, role, title) VALUES (?, ?, ?, ?, ?, ?, ?);');
         $roomSth = self::getConnection()->prepare('INSERT IGNORE INTO room (roomNumber, name, teacherId) VALUES (?, ?, ?);');
         $isTeacherInsert = count($rooms) > 0;
 
         foreach ($users as $user) {
-            for ($i = 0; $i < 6; $i++) {
+            for ($i = 0; $i < 7; $i++) {
                 $userSth->bindValue($i + 1, $user[$i]);
             }
             $userSth->execute();
@@ -185,7 +185,7 @@ class UserDAO extends AbstractDAO {
                 return false;
             }
 
-            $passwordHash = createPasswordHash($userName, $password);
+            $passwordHash = createPasswordHash($password);
             $query = 'UPDATE user SET passwordHash = ?, userName = ?, firstName = ?, lastName = ?, class = ?, role = ? WHERE id = ?';
             $params = array($passwordHash, $userName, $firstName, $lastName, $class, $type, $userId);
             $updateUserResult = self::query($con, $query, $params, true)['success'];
@@ -228,7 +228,7 @@ class UserDAO extends AbstractDAO {
 
         $updatePassword = ($userName != null) || ($password != null);
         if ($updatePassword) {
-            $passwordHash = createPasswordHash($userName, $password);
+            $passwordHash = createPasswordHash($password);
             $hashQueryPart = ' passwordHash = ?,';
             $params = array_merge(array($passwordHash), $params);
         }

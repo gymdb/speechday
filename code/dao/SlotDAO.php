@@ -103,10 +103,10 @@ class SlotDAO extends AbstractDAO {
     public static function getBookedSlotsForStudent($eventId, $studentId) {
         $slots = array();
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT s.id, s.eventId, s.teacherId, s.dateFrom, s.dateTo, u.firstName, u.lastName FROM slot AS s JOIN user AS u ON s.teacherId = u.id WHERE eventId = ? AND studentId = ?;', array($eventId, $studentId));
+        $res = self::query($con, 'SELECT s.id, s.eventId, s.teacherId, s.dateFrom, s.dateTo, u.firstName, u.lastName, u.title FROM slot AS s JOIN user AS u ON s.teacherId = u.id WHERE eventId = ? AND studentId = ?;', array($eventId, $studentId));
 
         while ($s = self::fetchObject($res)) {
-            $slots[$s->dateFrom] = array('id' => $s->id, 'eventId' => $s->eventId, 'dateFrom' => $s->dateFrom, 'dateTo' => $s->dateTo, 'teacherId' => $s->teacherId, 'teacherName' => $s->firstName . ' ' . $s->lastName);
+            $slots[$s->dateFrom] = array('id' => $s->id, 'eventId' => $s->eventId, 'dateFrom' => $s->dateFrom, 'dateTo' => $s->dateTo, 'teacherId' => $s->teacherId, 'teacherName' => $s->title .' '. $s->firstName . ' ' . $s->lastName);
         }
         self::close($res);
         return $slots;
