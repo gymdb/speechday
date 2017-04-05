@@ -10,7 +10,7 @@ include_once 'inc/header.php';
 <div class='container'>
     <div id='tabs-1'>
         <h1>Zeitübersicht</h1>
-        <h3>Hier können Sie Termine beim gewüschten Lehrer/Lehrerin buchen!<br><br></h3>
+        <h3>Hier können Sie Termine beim gewünschten Lehrer/Lehrerin buchen!<br><br></h3>
     </div>
 </div>
 
