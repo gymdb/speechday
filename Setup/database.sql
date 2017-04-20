@@ -89,9 +89,9 @@ CREATE TABLE `user` (
   `passwordHash` varchar(255) COLLATE utf8_bin NOT NULL,
   `firstName` varchar(255) COLLATE utf8_bin NOT NULL,
   `lastName` varchar(255) COLLATE utf8_bin NOT NULL,
-  `class` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `class` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `role` enum('student','teacher','admin') COLLATE utf8_bin NOT NULL DEFAULT 'student',
-  `title` varchar(10) COLLATE utf8_bin DEFAULT ''
+  `title` varchar(255) COLLATE utf8_bin DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
