@@ -10,8 +10,11 @@ include_once 'inc/header.php';
 <script type='text/javascript' src='js/validation.min.js'></script>
 
 <link href='libs/bootstrap/css/bootstrap-datepicker3.min.css' rel='stylesheet'>
+<link href='libs/bootstrap/css/bootstrap-datetimepicker.css' rel='stylesheet'>
 <script src='libs/bootstrap/js/bootstrap-datepicker.min.js'></script>
 <script src='libs/bootstrap/locales/bootstrap-datepicker.de.min.js'></script>
+<script type="text/javascript" src="libs/bootstrap/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="libs/bootstrap/js/bootstrap-datetimepicker.de.js" charset="UTF-8"></script>
 
 <p id='pageName' hidden>Admin</p>
 
@@ -81,6 +84,30 @@ include_once 'inc/header.php';
                                 <option>20</option>
                             </select>
                         </div>
+
+
+                        <div class='form-group'>
+                            <label for='inputDate'>Buchungsende</label>
+                            <div class='input-group input-append date' id='datePickerBooking'>
+                                <input type='text' class='form-control' id='bookingDate' name='bookingDate'>
+                                <span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>
+                            </div>
+                        </div>
+<script>
+                            $('#datePickerBooking').datetimepicker({
+                                format: 'dd.mm.yyyy hh:ii',
+                                language: 'de',
+});</script>
+
+                      <!--  <script>
+                            $('#datePickerBooking').datetimepicker({
+    format: 'dd.mm.yyy hh:ii',
+    defaultDate: new Date('2015-09-01 10:00'),
+    disabledDates: [
+    moment("2015-12-25 10:00")]
+                            });
+                        </script> -->
+
 
                         <div class='form-group'>
                             <label><input type='checkbox' name='setActive[]'> als aktiven Elternsrpechtag setzen</label>

@@ -339,6 +339,7 @@ class ViewController extends Controller {
                         $val = json_decode($user->__toString(), true);
                         $val['roomNumber'] = $room->getRoomNumber();
                         $val['roomName'] = $room->getName();
+                        $val['absent'] = $user->isAbsent();
                         $val = json_encode($val);
                     }
                     ?>
