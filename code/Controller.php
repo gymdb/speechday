@@ -522,7 +522,7 @@ class Controller {
     }
 
     private function createNewsletter($template) {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument('1.0', 'utf-8');
         $doc->loadXML($template);
         $root = $doc->documentElement;
 
