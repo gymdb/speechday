@@ -40,11 +40,11 @@ class UserDAO extends AbstractDAO {
             $params[] = $limit;
         }
 
-        $query = sprintf('SELECT id, userName, passwordHash, firstName, lastName, class, role, title FROM user WHERE role = ? %s;', $orderAndLimitPhrase);
+        $query = sprintf('SELECT id, userName, passwordHash, firstName, lastName, class, role, title, absent FROM user WHERE role = ? %s;', $orderAndLimitPhrase);
         $res = self::query($con, $query, $params);
 
         while ($u = self::fetchObject($res)) {
-            $users[] = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role, $u->title);
+            $users[] = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role, $u->title, $u->absent);
         }
         self::close($res);
         return $users;
@@ -86,10 +86,10 @@ class UserDAO extends AbstractDAO {
     public static function getUsers() {
         $users = array();
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT id, userName, passwordHash, firstName, lastName, class, role, title FROM user ORDER BY LOWER(lastName), LOWER(firstName);', array());
+        $res = self::query($con, 'SELECT id, userName, passwordHash, firstName, lastName, class, role, title, absent FROM user ORDER BY LOWER(lastName), LOWER(firstName);', array());
 
         while ($u = self::fetchObject($res)) {
-            $users[] = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role, $u->title);
+            $users[] = new User($u->id, $u->userName, $u->passwordHash, $u->firstName, $u->lastName, $u->class, $u->role, $u->title, $u->absent);
         }
         self::close($res);
         return $users;
@@ -237,6 +237,14 @@ class UserDAO extends AbstractDAO {
 
         return self::query($con, $query, $params, true);
         */
+    }
+
+    public static function updateAbsent($userId,$absent) {
+        $con = self::getConnection();
+        $query = 'UPDATE user SET absent = ? WHERE Id = ?;';
+        $params = array($absent, $userId);
+        $result = self::query($con, $query, $params, true)['success'];
+        return $result;
     }
 
     public static function deleteUsersByRole($role) {

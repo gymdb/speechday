@@ -28,7 +28,9 @@ class ViewController extends Controller {
 
     private function checkIfTeacherIsBooked($teacherId, $bookedSlots) {
         foreach ($bookedSlots as $slot) {
-            if (in_array($teacherId, $slot)) {
+        $help = $slot;
+        unset($help['eventId']);  //remove eventId, because teacherId could be equal to eventId
+        if (in_array($teacherId, $help)) {
                 return true;
             }
         }
@@ -339,6 +341,7 @@ class ViewController extends Controller {
                         $val = json_decode($user->__toString(), true);
                         $val['roomNumber'] = $room->getRoomNumber();
                         $val['roomName'] = $room->getName();
+                        $val['absent'] = $user->isAbsent();
                         $val = json_encode($val);
                     }
                     ?>

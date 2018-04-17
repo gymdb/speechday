@@ -20,8 +20,9 @@ class User extends Entity {
     private $class;
     private $role;
     private $title;
+    private $absent;
 
-    public function __construct($id, $userName, $passwordHash, $firstName, $lastName, $class, $role,$title) {
+    public function __construct($id, $userName, $passwordHash, $firstName, $lastName, $class, $role, $title, $absent = 0) {
         parent::__construct($id);
         $this->userName = $userName;
         $this->passwordHash = $passwordHash;
@@ -30,7 +31,9 @@ class User extends Entity {
         $this->class = $class;
         $this->role = $role;
         $this->title = $title;
+        $this->absent = $absent;
     }
+
 
     public function getUserName() {
         return $this->userName;
@@ -60,6 +63,10 @@ class User extends Entity {
         return $this->title;
     }
 
+    public function isAbsent() {
+        return $this->absent;
+    }
+
     public function __toString() {
         return json_encode(array(
             'id' => $this->getId(),
@@ -69,7 +76,8 @@ class User extends Entity {
             'lastName' => $this->lastName,
             'class' => $this->class,
             'role' => $this->role,
-            'title' => $this->title
+            'title' => $this->title,
+            'absent' => $this->absent
         ));
     }
 }
@@ -80,14 +88,16 @@ class Event extends Entity {
     private $dateTo;
     private $slotTime;
     private $isActive;
+    private $finalPostDate;
 
-    public function __construct($id, $name, $dateFrom, $dateTo, $slotTime, $isActive) {
+    public function __construct($id, $name, $dateFrom, $dateTo, $slotTime, $isActive, $finalPostDate) {
         parent::__construct($id);
         $this->name = $name;
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
         $this->slotTime = $slotTime;
         $this->isActive = $isActive;
+        $this->finalPostDate = $finalPostDate;
     }
 
     public function getName() {
@@ -108,6 +118,9 @@ class Event extends Entity {
 
     public function isActive() {
         return $this->isActive;
+    }
+    public function getfinalPostDate() {
+        return $this->finalPostDate;
     }
 }
 

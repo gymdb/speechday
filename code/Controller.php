@@ -48,15 +48,17 @@ class Controller {
         $endTime = $_REQUEST['endTime'];
         $slotDuration = $_REQUEST['slotDuration'];
         $setActive = $_REQUEST['setActive'] == 'true' ? true : false;
+        $bookingDate = $_REQUEST['bookingDate'];
 
         $unixTimeFrom = strtotime($date . ' ' . $beginTime);
         $unixTimeTo = strtotime($date . ' ' . $endTime);
+        $finalPostDate = strtotime($bookingDate);
 
         if (!$unixTimeFrom || !$unixTimeTo) {
             return;
         }
 
-        $eventId = EventDAO::createEvent($name, $unixTimeFrom, $unixTimeTo, $slotDuration, $setActive);
+        $eventId = EventDAO::createEvent($name, $unixTimeFrom, $unixTimeTo, $slotDuration, $setActive, $finalPostDate);
         if ($eventId > 0) {
             echo 'success';
         }
@@ -427,6 +429,9 @@ class Controller {
         $updateRoomResult = true;
         if ($roomNumber != '' && $roomName != '') {
             $updateRoomResult = RoomDAO::update($roomNumber, $roomName, $userId)['success'];
+        }
+        if (isset($_REQUEST['absent'])) {
+           UserDAO::updateAbsent($userId,true);
         }
 
         if ($updateUserResult && $updateRoomResult) {

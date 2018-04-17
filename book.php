@@ -19,16 +19,21 @@ include_once 'inc/header.php';
 <div class='container'>
     <div>
         <?php if ($activeEvent != null): ?>
-            <form id='chooseTeacherForm'>
-                <div class='form-group'>
-                    <label for='selectTeacher'>Lehrer / Lehrerin</label>
-                    <select class='form-control' id='selectTeacher' name='teacher'>
-                        <?php echo(getTeacherOptions()); ?>
-                    </select>
-                </div>
-            </form>
+            <?php if ($activeEvent->getFinalPostDate() > time()): ?>
+               <form id='chooseTeacherForm'>
+                   <div class='form-group'>
+                       <label for='selectTeacher'>Lehrer / Lehrerin</label>
+                       <select class='form-control' id='selectTeacher' name='teacher'>
+                           <?php echo(getTeacherOptions()); ?>
+                       </select>
+                   </div>
+               </form>
 
-            <div id='timeTable'></div>
+               <div id='timeTable'></div>
+           <?php else: ?>
+            <h3>Buchungen sind nicht mehr möglich!</h3>
+           <?php endif; ?>
+            
         <?php else: ?>
             <h3>Es gibt momentan keinen Elternsprechtag!</h3>
         <?php endif; ?>

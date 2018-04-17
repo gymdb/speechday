@@ -365,6 +365,12 @@ function fillUserEditFields() {
     $('#inputClass').val(user.class);
     $('#inputRoomNumber').val(user.roomNumber);
     $('#inputRoomName').val(user.roomName);
+    if (user.absent == 1) {
+       $('#inputAbsent').prop('checked',true)
+    } else {
+       $('#inputAbsent').prop('checked',false)
+
+    }
 
     var typeSelect = $('#selectType');
     typeSelect.find('option').removeAttr('selected');
@@ -386,9 +392,11 @@ function changeRoomInputVisibility(condition) {
     if (condition) {
         $('#inputRoomNumber-div').removeClass('hidden');
         $('#inputRoomName-div').removeClass('hidden');
+        $('#inputAbsent-div').removeClass('hidden');
     } else {
         $('#inputRoomNumber-div').addClass('hidden');
         $('#inputRoomName-div').addClass('hidden');
+        $('#inputAbsent-div').addClass('hidden');
     }
 }
 

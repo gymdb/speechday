@@ -43,3 +43,8 @@
     <label for='inputRoomName'>Raumname</label>
     <input type='text' class='form-control' id='inputRoomName' name='roomName' placeholder='Raumname'>
 </div>
+
+<div id="inputAbsent-div" class='form-group hidden'>
+    <label for='inputAbsent'>Abwesend</label>
+    <input type='checkBox' class='form-control' id='inputAbsent' name='absent' placeholder='abwesend'>
+</div>
