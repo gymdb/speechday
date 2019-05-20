@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  php-fpm:
+    build:
+      context: ./php-fpm
+    volumes:
+      - ../src:/var/www1
+
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - ../src/:/var/www1
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+      - php-fpm
+    ports:
+      - "80:80"
+      - "443:443"
+
+  database:
+    build:
+      context: ./database
+    environment:
+      - MYSQL_DATABASE=speechday
+      - MYSQL_USER=speechday
+      - MYSQL_PASSWORD=docker
+      - MYSQL_ROOT_PASSWORD=docker
+    depends_on:
+      - nginx
+    volumes:
+      - ./database/data.sql:/docker-entrypoint-initdb.d/data.sql
+
+
+  myadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: phpmyadmin
+      ports:
+        - "8080:80"
+      environment:
+        - PMA_HOST=database
+        - PMA_PORT=3306
+        - MYSQL_USER=root
+        - MYSQL_PASSWORD=docker
+      restart: always
+      links:
+        - database
