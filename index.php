@@ -35,7 +35,7 @@ if (isset($_SESSION['userId']) != '') {
 
         <form class='form-signin' method='post' id='login-form'>
 
-            <h2 class='form-signin-heading'>ESV Login</h2>
+            <h2 class='form-signin-heading'>Elternsprechtag -  Login</h2>
             <hr/>
 
             <div id='error'>

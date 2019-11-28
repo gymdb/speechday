@@ -28,9 +28,9 @@ class ViewController extends Controller {
 
     private function checkIfTeacherIsBooked($teacherId, $bookedSlots) {
         foreach ($bookedSlots as $slot) {
-        $help = $slot;
-        unset($help['eventId']);  //remove eventId, because teacherId could be equal to eventId
-        if (in_array($teacherId, $help)) {
+  	   $help = $slot;
+	   unset($help['eventId']);  //remove eventId, because teacherId could be equal to eventId
+	   if (in_array($teacherId, $help)) {
                 return true;
             }
         }
