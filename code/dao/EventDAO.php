@@ -9,17 +9,17 @@ class EventDAO extends AbstractDAO {
     public static function getEvents() {
         $events = array();
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT id, name, dateFrom, dateTo, slotTimeMin, isActive, finalPostDate FROM event ORDER BY dateFrom;', array());
+        $res = self::query($con, 'SELECT id, name, dateFrom, dateTo, slotTimeMin, isActive, finalPostDate, videoLink FROM event ORDER BY dateFrom;', array());
 
         while ($e = self::fetchObject($res)) {
-            $events[] = new Event($e->id, $e->name, $e->dateFrom, $e->dateTo, $e->slotTimeMin, $e->isActive, $e->finalPostDate);
+            $events[] = new Event($e->id, $e->name, $e->dateFrom, $e->dateTo, $e->slotTimeMin, $e->isActive, $e->finalPostDate, $e->videoLink);
         }
         self::close($res);
 
         return $events;
     }
 
-    public static function createEvent($name, $dateFrom, $dateTo, $slotDuration, $setActive, $finalPostDate) {
+    public static function createEvent($name, $dateFrom, $dateTo, $slotDuration, $setActive, $finalPostDate, $videoLink) {
         $con = self::getConnection();
 
         if (($dateTo - $dateFrom < 0) || (count(EventDAO::getEventsForDate($dateFrom)) > 0)) {
@@ -27,7 +27,7 @@ class EventDAO extends AbstractDAO {
         }
 
         self::getConnection()->beginTransaction();
-        self::query($con, 'INSERT INTO event (name, dateFrom, dateTo, slotTimeMin, finalPostDate) VALUES (?, ?, ?, ?, ?);', array($name, $dateFrom, $dateTo, $slotDuration, $finalPostDate));
+        self::query($con, 'INSERT INTO event (name, dateFrom, dateTo, slotTimeMin, finalPostDate, videoLink) VALUES (?, ?, ?, ?, ?, ?);', array($name, $dateFrom, $dateTo, $slotDuration, $finalPostDate, $videoLink));
         $eventId = self::lastInsertId($con);
 
         $teachers = UserDAO::getUsersForRole('teacher');
@@ -50,10 +50,10 @@ class EventDAO extends AbstractDAO {
     public static function getEventForId($eventId) {
         $event = null;
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT id, name, dateFrom, dateTo, slotTimeMin, isActive, finalPostDate FROM event WHERE id = ?;', array($eventId));
+        $res = self::query($con, 'SELECT id, name, dateFrom, dateTo, slotTimeMin, isActive, finalPostDate, videoLink FROM event WHERE id = ?;', array($eventId));
 
         if ($e = self::fetchObject($res)) {
-            $event = new Event($e->id, $e->name, $e->dateFrom, $e->dateTo, $e->slotTimeMin, $e->isActive, $e->finalPostDate);
+            $event = new Event($e->id, $e->name, $e->dateFrom, $e->dateTo, $e->slotTimeMin, $e->isActive, $e->finalPostDate, $e->videoLink);
         }
         self::close($res);
         return $event;
@@ -62,10 +62,10 @@ class EventDAO extends AbstractDAO {
     public static function getActiveEvent() {
         $event = null;
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT id, name, dateFrom, dateTo, slotTimeMin, isActive,  finalPostDate FROM event WHERE isActive = 1;', array());
+        $res = self::query($con, 'SELECT id, name, dateFrom, dateTo, slotTimeMin, isActive,  finalPostDate, videoLink FROM event WHERE isActive = 1;', array());
 
         if ($e = self::fetchObject($res)) {
-            $event = new Event($e->id, $e->name, $e->dateFrom, $e->dateTo, $e->slotTimeMin, $e->isActive, $e->finalPostDate);
+            $event = new Event($e->id, $e->name, $e->dateFrom, $e->dateTo, $e->slotTimeMin, $e->isActive, $e->finalPostDate, $e->videoLink);
         }
         self::close($res);
         return $event;
@@ -77,10 +77,10 @@ class EventDAO extends AbstractDAO {
 
         $events = array();
         $con = self::getConnection();
-        $res = self::query($con, 'SELECT id, name, dateFrom, dateTo, slotTimeMin, isActive,finalPostDate FROM event WHERE dateFrom BETWEEN ? AND ?;', array($from, $to));
+        $res = self::query($con, 'SELECT id, name, dateFrom, dateTo, slotTimeMin, isActive,finalPostDate, videoLink FROM event WHERE dateFrom BETWEEN ? AND ?;', array($from, $to));
 
         while ($e = self::fetchObject($res)) {
-            $events[] = new Event($e->id, $e->name, $e->dateFrom, $e->dateTo, $e->slotTimeMin, $e->isActive, $e->finalPostDate);
+            $events[] = new Event($e->id, $e->name, $e->dateFrom, $e->dateTo, $e->slotTimeMin, $e->isActive, $e->finalPostDate, $e->videoLink);
         }
         self::close($res);
 

@@ -176,8 +176,8 @@ class ViewController extends Controller {
             <tr>
                 <th width='15%'>Uhrzeit</th>
                 <th width='15%'>Raum</th>
-                <th width='50%'>Mein Zeitplan</th>
-                <th width='20%' class='no-print'>Aktion</th>
+                <th width='35%'>Mein Zeitplan</th>
+                <th width='35%' class='no-print'>Aktion</th>
             </tr>
             </thead>
             <tbody>
@@ -204,7 +204,7 @@ class ViewController extends Controller {
                     </tr>
                 <?php else: ?>
                     <tr class='<?php echo($studentAvailable ? 'es-time-table-available' : 'es-time-table-occupied') ?>'>
-                        <td><?php echo($timeTd) ?></td>
+                        <td><?php echo($timeTd); ?></td>
                         <td><?php echo($roomTd) ?></td>
                         <td><?php echo($studentAvailable ? 'frei' : $bookedSlots[$fromDate]['teacherName']) ?></td>
                         <td class='no-print'>
@@ -214,7 +214,11 @@ class ViewController extends Controller {
                                 <button type='button' class='btn btn-primary btn-delete'
                                         id='btn-delete-<?php echo($bookedSlots[$fromDate]['id']) ?>'
                                         value='<?php echo($deleteJson) ?>'>Termin löschen
-                                </button>
+				</button>
+                                <?php if (!empty($activeEvent->getVideoLink())): 
+				      $getParam=escape('#userInfo.displayName=%22'.$user->getFirstName() . ' ' . $user->getLastName().'%22')?>
+			  	   <a class="btn btn-primary btn-delete" href="<?php echo ($activeEvent->getVideoLink().md5($bookedSlots[$fromDate]['id']).$getParam) ?>" target="_blank"> Zum Videomeeting</a> 
+                               <?php endif; ?>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -284,6 +288,9 @@ class ViewController extends Controller {
             <tr>
                 <th width='15%'>Uhrzeit</th>
                 <th width='65%'>Schüler</th>
+                <?php if (!empty($activeEvent->getVideoLink())): ?>
+                   <th width='10%'>VideoLink</th>
+                <?php endif; ?>
             </tr>
             </thead>
             <tbody>
@@ -304,6 +311,10 @@ class ViewController extends Controller {
                         <tr class='<?php echo($teacherAvailable ? 'es-time-table-available' : 'es-time-table-occupied') ?>'>
                             <td><?php echo($timeTd) ?></td>
                             <td><?php echo($teacherAvailable ? 'frei' : $bookedSlots[$fromDate]['studentName']) ?></td>
+			    <?php if (!empty($activeEvent->getVideoLink())): 
+			       $getParam =  escape('#userInfo.displayName=%22'.$teacher->getFirstName() . " " . $teacher->getLastName()."%22"); ?>
+			      <td><a href="<?php echo($activeEvent->getVideoLink().md5($slot->getId()).$getParam) ?>">VideoLink</a></td>
+                            <?php endif; ?>
                         </tr>
                     <?php endif; ?>
                 <?php endif; ?>

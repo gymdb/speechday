@@ -110,6 +110,11 @@ include_once 'inc/header.php';
 
 
                         <div class='form-group'>
+                            <label for='inputVideoLink'>Videolink</label>
+                            <input type='text' class='form-control' id='videoLink' name='videoLink'
+                                   placeholder='Falls der Termin nur online stattfindet, bitte Videolink eintragen'>
+                        </div>
+                        <div class='form-group'>
                             <label><input type='checkbox' name='setActive[]'> als aktiven Elternsrpechtag setzen</label>
                         </div>
 

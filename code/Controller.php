@@ -49,6 +49,7 @@ class Controller {
         $slotDuration = $_REQUEST['slotDuration'];
         $setActive = $_REQUEST['setActive'] == 'true' ? true : false;
         $bookingDate = $_REQUEST['bookingDate'];
+        $videoLink = $_REQUEST['videoLink'];
 
         $unixTimeFrom = strtotime($date . ' ' . $beginTime);
         $unixTimeTo = strtotime($date . ' ' . $endTime);
@@ -58,7 +59,7 @@ class Controller {
             return;
         }
 
-        $eventId = EventDAO::createEvent($name, $unixTimeFrom, $unixTimeTo, $slotDuration, $setActive, $finalPostDate);
+        $eventId = EventDAO::createEvent($name, $unixTimeFrom, $unixTimeTo, $slotDuration, $setActive, $finalPostDate, $videoLink);
         if ($eventId > 0) {
             echo 'success';
         }

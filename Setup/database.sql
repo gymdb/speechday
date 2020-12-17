@@ -43,7 +43,8 @@ CREATE TABLE `event` (
   `dateTo` int(11) NOT NULL,
   `slotTimeMin` int(11) NOT NULL DEFAULT '5',
   `isActive` int(11) NOT NULL DEFAULT '0',
-  `finalPostDate` int(11)
+  `finalPostDate` int(11),
+  `videoLink` varchar(250) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -90,9 +91,9 @@ CREATE TABLE `user` (
   `passwordHash` varchar(255) COLLATE utf8_bin NOT NULL,
   `firstName` varchar(255) COLLATE utf8_bin NOT NULL,
   `lastName` varchar(255) COLLATE utf8_bin NOT NULL,
-  `class` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `class` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `role` enum('student','teacher','admin') COLLATE utf8_bin NOT NULL DEFAULT 'student',
-  `title` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `title` varchar(20) COLLATE utf8_bin DEFAULT '',
   `absent` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
