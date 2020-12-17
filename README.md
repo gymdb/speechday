@@ -31,3 +31,7 @@ As a student / parent:
 1. Log in with the credentials provided on the newsletter.
 2. Book the desired slots for the desired teacher.
 3. Print your time-table.
+
+## Online Speech day
+We added support to hold the speech day online. When you create a new speech day event you can now specify a base URL for a video conferencing service. (E.g. https://meet.jit.si)
+Teachers and students will find an individal link for each booked slot, where they can meet online.
