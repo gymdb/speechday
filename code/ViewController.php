@@ -217,7 +217,7 @@ class ViewController extends Controller {
 				</button>
                                 <?php if (!empty($activeEvent->getVideoLink())): 
 				      $getParam=escape('#userInfo.displayName=%22'.$user->getFirstName() . ' ' . $user->getLastName().'%22')?>
-			  	   <a class="btn btn-primary btn-delete" href="<?php echo ($activeEvent->getVideoLink().md5($bookedSlots[$fromDate]['id']).$getParam) ?>" target="_blank"> Zum Videomeeting</a> 
+			  	   <a class="btn btn-primary btn-delete" href="<?php echo ($activeEvent->getVideoLink().md5($bookedSlots[$fromDate]['id'])) ?>" target="_blank"> Zum Videomeeting</a> 
                                <?php endif; ?>
                             <?php endif; ?>
                         </td>
@@ -306,6 +306,9 @@ class ViewController extends Controller {
                         <tr class='es-time-table-break'>
                             <td><?php echo($timeTd) ?></td>
                             <td>PAUSE</td>
+                            <?php if (!empty($activeEvent->getVideoLink())): ?>
+                               <td></td>
+                            <?php endif; ?>
                         </tr>
                     <?php else: ?>
                         <tr class='<?php echo($teacherAvailable ? 'es-time-table-available' : 'es-time-table-occupied') ?>'>
@@ -313,7 +316,7 @@ class ViewController extends Controller {
                             <td><?php echo($teacherAvailable ? 'frei' : $bookedSlots[$fromDate]['studentName']) ?></td>
 			    <?php if (!empty($activeEvent->getVideoLink())): 
 			       $getParam =  escape('#userInfo.displayName=%22'.$teacher->getFirstName() . " " . $teacher->getLastName()."%22"); ?>
-			      <td><a href="<?php echo($activeEvent->getVideoLink().md5($slot->getId()).$getParam) ?>">VideoLink</a></td>
+			      <td><a href="<?php echo($activeEvent->getVideoLink().md5($slot->getId())) ?> "target=_blank">VideoLink</a></td>
                             <?php endif; ?>
                         </tr>
                     <?php endif; ?>
