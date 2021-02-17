@@ -30,6 +30,7 @@ class ViewController extends Controller {
         foreach ($bookedSlots as $slot) {
   	   $help = $slot;
 	   unset($help['eventId']);  //remove eventId, because teacherId could be equal to eventId
+	   unset($help['id']);  //remove slotId , because teacherId could be equal to slotId
 	   if (in_array($teacherId, $help)) {
                 return true;
             }
