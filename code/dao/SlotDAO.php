@@ -72,17 +72,32 @@ class SlotDAO extends AbstractDAO {
         $slots = array();
         $slotDuration = $event->getSlotTime();
         $startTime = $event->getDateFrom();
-        $breakCounter = 0;
+        $breakTimer = 0;
+        $breakCounter = 1;
+        $type = -1;
         while ($startTime < $event->getDateTo()) {
             $endTime = $startTime + ($slotDuration * 60);
-            $type = (($breakCounter % 30 != 0) || ($breakCounter == 0)) ? 1 : 2;
+            if ($event->getBreaks() == Event::NOBREAK ) {
+              $type = 1; //type = 1 normal; type = 2 break
+            } else if ($event->getBreaks() == Event::FULLHOUR ) {
+              $type = (($breakTimer % 60 != 0) || ($breakTimer == 0)) ? 1 : 2;
+            } else if ($event->getBreaks() == Event::HALFHOUR) {
+              $type = (($breakTimer % 30 != 0) || ($breakTimer == 0)) ? 1 : 2;
+            } else if ($event->getBreaks() == Event::BREAKTHREE) {
+              $type = ($breakCounter % 3 != 0) ? 1 : 2;
+            } else if ($event->getBreaks() == Event::BREAKFOUR) {
+              $type = ($breakCounter % 4 != 0) ? 1 : 2;
+            } else if ($event->getBreaks() == Event::BREAKFIVE) {
+              $type = ($breakCounter % 5 != 0) ? 1 : 2;
+            }
             if ($asDummy) {
                 $slots[] = new Slot(null, null, null, null, $startTime, $endTime, $type, 1);
             } else {
                 $slots[] = array('start' => $startTime, 'end' => $endTime, 'type' => $type);
             }
             $startTime = $endTime;
-            $breakCounter += $slotDuration;
+            $breakTimer += $slotDuration;
+            $breakCounter++;
         }
 
         return $slots;

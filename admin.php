@@ -114,8 +114,31 @@ include_once 'inc/header.php';
                             <input type='text' class='form-control' id='videoLink' name='videoLink'
                                    placeholder='Falls der Termin nur online stattfindet, bitte Videolink eintragen'>
                         </div>
+
+                        <label >Pausen</label>
+                        <div class='radio'>
+                            <label><input type='radio' name='breaks' value='0' checked>
+                                keine Pausen
+                            </label> &nbsp;
+                            <label><input type='radio' name='breaks' value='1'>
+                                zu jeder halben Stunde
+                            </label>&nbsp;
+                            <label><input type='radio' name='breaks' value='2'>
+                                zu jeder vollen Stunde
+                            </label>&nbsp;
+                            <label><input type='radio' name='breaks' value='3'>
+                               jede 3. Einheit
+                            </label>&nbsp;
+                            <label><input type='radio' name='breaks' value='4'>
+                                jede 4. Einheit
+                            </label>&nbsp;
+                            <label><input type='radio' name='breaks' value='5'>
+                                jede 5. Einheit
+                            </label>&nbsp;
+                        </div>
+
                         <div class='form-group'>
-                            <label><input type='checkbox' name='setActive[]'> als aktiven Elternsrpechtag setzen</label>
+                            <label><input type='checkbox' name='setActive[]' checked>  als aktiven Elternsrpechtag setzen</label>
                         </div>
 
                         <button type='submit' class='btn btn-primary' id='btn-create-event'>Anlegen</button>

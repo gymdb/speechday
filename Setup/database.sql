@@ -44,7 +44,8 @@ CREATE TABLE `event` (
   `slotTimeMin` int(11) NOT NULL DEFAULT '5',
   `isActive` int(11) NOT NULL DEFAULT '0',
   `finalPostDate` int(11),
-  `videoLink` varchar(250) COLLATE utf8_bin DEFAULT NULL
+  `videoLink` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `breaks` int(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --

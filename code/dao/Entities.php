@@ -90,8 +90,15 @@ class Event extends Entity {
     private $isActive;
     private $finalPostDate;
     private $videoLink;
+    private $breaks;
+    const NOBREAK = 0;
+    const HALFHOUR = 1;
+    const FULLHOUR = 2;
+    const BREAKTHREE = 3;
+    const BREAKFOUR = 4;
+    const BREAKFIVE = 5;
 
-    public function __construct($id, $name, $dateFrom, $dateTo, $slotTime, $isActive, $finalPostDate, $videoLink) {
+    public function __construct($id, $name, $dateFrom, $dateTo, $slotTime, $isActive, $finalPostDate, $videoLink, $breaks) {
         parent::__construct($id);
         $this->name = $name;
         $this->dateFrom = $dateFrom;
@@ -100,6 +107,7 @@ class Event extends Entity {
         $this->isActive = $isActive;
         $this->finalPostDate = $finalPostDate;
 	$this->videoLink = $videoLink;
+	$this->breaks = $breaks;
     }
 
     public function getName() {
@@ -126,6 +134,9 @@ class Event extends Entity {
     }
     public function getVideoLink() {
         return $this->videoLink;
+    }
+    public function getBreaks() {
+      return $this->breaks;
     }
 }
 
