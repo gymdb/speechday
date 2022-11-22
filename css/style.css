@@ -93,6 +93,12 @@ body {
 .es-time-table-occupied {
     background-color: #D4999F;
 }
+    .col1 {
+       width:25%;
+    }
+    .col2 {
+       width:65%;
+    }
 
 /* ------- print ------- */
 
