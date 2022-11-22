@@ -101,6 +101,13 @@ body {
         visibility: hidden;
     }
 
+   .es-time-table th, .es-time-table td {
+       font-size: 10pt;
+       font-weight: normal;
+       height: 23px;
+       text-align: center;
+       vertical-align: middle !important;
+   }
     .es-time-table-occupied {
         background-color: #D4999F;
         -webkit-print-color-adjust: exact;
@@ -110,11 +117,24 @@ body {
         visibility: visible;
         -webkit-print-color-adjust: exact;
     }
+ 
+    .col1 {
+       width:200px;
+    }
+    .col2 {
+       width:400px;
+    }
 
     .section-to-print {
         position: absolute;
         left: 0;
         top: 0;
+        width: 100%
+    }
+
+    .no-print {
+      display: none;
+      visibility: hidden;
     }
 }
 

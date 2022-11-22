@@ -23,7 +23,7 @@
             </div>
         </form>
 
-        <button class="btn btn-primary" onclick="PrintElem('#timeTable', '<?php echo escape(getActiveSpeechdayText()); ?>')">
+        <button class="btn btn-primary" onclick="window.print()">
             <span class='glyphicon glyphicon-print'></span>&nbsp;&nbsp;Zeitplan ausdrucken
         </button>
 

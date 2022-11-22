@@ -218,7 +218,7 @@ class ViewController extends Controller {
 				</button>
                                 <?php if (!empty($activeEvent->getVideoLink())): 
 				      $getParam=escape('#userInfo.displayName=%22'.$user->getFirstName() . ' ' . $user->getLastName().'%22')?>
-			  	   <a class="btn btn-primary btn-delete" href="<?php echo ($activeEvent->getVideoLink().md5($bookedSlots[$fromDate]['id'])) ?>" target="_blank"> Zum Videomeeting</a> 
+			  	   <a class="btn btn-primary btn-delete" href="<?php echo ($activeEvent->getVideoLink().md5($bookedSlots[$fromDate]['id']).$getParam) ?>" target="_blank"> Zum Videomeeting</a> 
                                <?php endif; ?>
                             <?php endif; ?>
                         </td>
@@ -287,8 +287,8 @@ class ViewController extends Controller {
         <table class='table table-hover es-time-table'>
             <thead>
             <tr>
-                <th width='15%'>Uhrzeit</th>
-                <th width='65%'>Schüler</th>
+                <th class='col1'>Uhrzeit</th>
+                <th class='col2'>Schüler</th>
                 <?php if (!empty($activeEvent->getVideoLink())): ?>
                    <th width='10%'>VideoLink</th>
                 <?php endif; ?>
@@ -317,7 +317,7 @@ class ViewController extends Controller {
                             <td><?php echo($teacherAvailable ? 'frei' : $bookedSlots[$fromDate]['studentName']) ?></td>
 			    <?php if (!empty($activeEvent->getVideoLink())): 
 			       $getParam =  escape('#userInfo.displayName=%22'.$teacher->getFirstName() . " " . $teacher->getLastName()."%22"); ?>
-			      <td><a href="<?php echo($activeEvent->getVideoLink().md5($slot->getId())) ?> "target=_blank">VideoLink</a></td>
+			      <td><a href="<?php echo($activeEvent->getVideoLink().md5($slot->getId()).$getParam) ?> "target=_blank">VideoLink</a></td>
                             <?php endif; ?>
                         </tr>
                     <?php endif; ?>
