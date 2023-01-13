@@ -1,3 +1,25 @@
+<?php 
+require_once('code/Util.php');
+require_once('code/dao/AbstractDAO.php');
+require_once('code/AuthenticationManager.php');
+
+SessionContext::create();
+
+if (!isset($_SESSION['userId'])) {
+    header('Location: index.php');
+}
+
+$user = AuthenticationManager::getAuthenticatedUser();
+
+if ($user->getRole() === 'admin') {
+	header('Location: admin.php');
+	die();
+}
+if ($user->getRole() === 'teacher') {
+	header('Location: teacher.php');
+	die();
+}
+?>
 <?php include_once 'inc/header.php'; ?>
 
 <script type='text/javascript' src='js/mySlots.js'></script>
@@ -28,6 +50,13 @@
         </button>
 
         <div id='timeTable' class="section-to-print"></div>
+
+    </div>
+</div>
+
+<div class='container'>
+    <div id='tabs-1'>
+        <h3>Wechseln Sie oben auf „<a href="book.php">Zeiten buchen</a>“ um Sprechtermine zu reservieren.</h3>
     </div>
 </div>
 
