@@ -6,6 +6,10 @@ function escape($string) {
 	return nl2br(htmlentities($string));
 }
 
+function escape_xml($string) {
+	return nl2br(htmlentities($string, ENT_XML1 | ENT_SUBSTITUTE));
+}
+
 class SessionContext {
 	private static $isCreated = false;
 	

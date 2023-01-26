@@ -560,11 +560,11 @@ class Controller {
             $trans = array(
                 'ESTODAY' => toDate(time(), 'd.m.Y'),
                 'ESDATE' => toDate($activeEvent->getDateFrom(), 'd.m.Y'),
-                'ESFIRSTNAME' => escape($student->getFirstName()),
-                'ESLASTNAME' => escape($student->getLastName()),
-                'ESUSERNAME' => escape($student->getUserName()),
-                'ESCLASS' => escape($student->getClass()),
-                'ESPASSWORD' => escape($password)
+                'ESFIRSTNAME' => escape_xml($student->getFirstName()),
+                'ESLASTNAME' => escape_xml($student->getLastName()),
+                'ESUSERNAME' => escape_xml($student->getUserName()),
+                'ESCLASS' => escape_xml($student->getClass()),
+                'ESPASSWORD' => escape_xml($password)
             );
 
             $copyNode = $copyNodeBackup->cloneNode(true);
