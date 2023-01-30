@@ -133,7 +133,17 @@ class Event extends Entity {
         return $this->finalPostDate;
     }
     public function getVideoLink() {
-        return $this->videoLink;
+        if (strlen($this->videoLink) > 10) {
+
+           $lastchar = $this->videoLink[-1];
+           if (strcmp($lastchar,"/")===0) {
+              return $this->videoLink;
+           } else {
+              return $this->videoLink."/";
+           }
+        } else {
+           return null;
+        }
     }
     public function getBreaks() {
       return $this->breaks;
