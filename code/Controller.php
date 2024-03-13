@@ -84,6 +84,20 @@ class Controller {
         echo 'success';
     }
 
+  protected function action_changeRoom() {
+    $roomNumber = $_REQUEST['roomNumber'];
+    $roomName = $_REQUEST['roomName'];
+    $userId = $_REQUEST['userId'];
+    $eventId = $_REQUEST['eventId'];
+
+    if (empty($roomNumber) || empty($roomName)) {
+      echo 'failure';
+      return;
+    }
+    RoomDAO::update($roomNumber,$roomName,$userId);
+    echo 'success';
+  }
+
     protected function action_uploadFile() {
         error_reporting(E_ALL);
         ini_set('display_errors', 1);

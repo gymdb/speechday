@@ -39,6 +39,37 @@ $(document).on('click', '#btn-change-attendance', function () {
     return true;
 });
 
+
+$(document).on('click', '#btn-change-room', function () {
+    $('#changeRoomForm').submit(function (e) {
+        var postData = $(this).serializeArray();
+        postData = postData.concat({name: 'action', value: 'changeRoom'});
+
+        var formURL = 'controller.php';
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                var message = $('#messageRoom');
+                if (data.indexOf('success') > -1) {
+                    $('#currentRoom').load('viewController.php?action=room');
+
+                    showMessage(message, 'success', 'Der Raum wurde erfolgreich geändert!');
+                } else {
+                    showMessage(message, 'danger', 'Der Raum konnte nicht geändert werden!');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showMessage(message, 'danger', 'Der Raum konnte nicht geändert werden!');
+            }
+        });
+        e.preventDefault();
+    });
+
+    return true;
+});
+
 function loadTimeTable(typeId) {
     var timeTable = $('#timeTable');
     $.ajax({

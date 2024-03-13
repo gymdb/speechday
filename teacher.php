@@ -99,6 +99,50 @@ include_once 'inc/header.php';
             </div>
         </div>
 
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#accordion' href='#collapse3'>
+                        Raum
+                    </a>
+                </h4>
+            </div>
+            <div id='collapse3' class='panel-collapse collapse'>
+                <div class='panel-body'>
+                      <p id="room">
+                      <?php
+                      $viewController = ViewController::getInstance();
+                      $room = $viewController->action_room();
+                      ?> <br></P>
+                      <h4>
+                          Raum ändern
+                      </h4>
+
+                      <form id='changeRoomForm'>
+                          <input type='hidden' name='userId' value='<?php echo(escape($user->getId())) ?>'>
+                          <input type='hidden' name='eventId' value='<?php echo(escape($room['eventId'])) ?>'>
+                          <div class='form-group'>
+                              <label for='inputRoomNumber'>Raum Nummer</label>
+                              <br><input type="text" class="form-control" name="roomNumber"/>
+                          </div>
+
+                          <div class='form-group'>
+                              <label for='inputToTime'>Raum Name - kann auch ein Link zu einem virtuellen Raum sein.</label>
+                              <br><input type="text" class="form-control" name="roomName"/>
+                          </div>
+
+                          <button type='submit' class='btn btn-primary' id='btn-change-room'>
+                              Raum ändern
+                          </button>
+                      </form>
+
+                      <div class='message' id='messageRoom'></div>
+
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

@@ -608,6 +608,17 @@ class ViewController extends Controller {
         return $this->getAttendance($user, $event);
     }
 
+    public function action_room(){
+        $user = AuthenticationManager::getAuthenticatedUser();
+        $event = EventDAO::getActiveEvent();
+        $room = RoomDAO::getRoomForTeacherId($user->getId());
+            if ($room != null) {
+                echo ("<h4 id='currentRoom'> Aktueller Raum: " . $room->getRoomNumber() . " | " . $room->getName()."</h4>" );
+            } else {
+                echo ("<h4 id='currentRoom'>Derzeit kein Raum vorhanden.</h4>");
+            }
+    }
+
     public function action_attendanceParametrized() {
         $userId = $_REQUEST['userId'];
         $eventId = $_REQUEST['eventId'];
