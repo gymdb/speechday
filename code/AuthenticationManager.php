@@ -8,18 +8,24 @@ SessionContext::create();
 class AuthenticationManager {
 	public static function authenticate($userName, $password) {
 		$user = UserDAO::getUserForUserName($userName);
-        if ($user != null) {
-            LogDAO::log($user->getId(), LogDAO::LOG_ACTION_LOGIN, $userName);
-        }
 
-	if ($user != null &&  password_verify($password,$user->getPasswordHash())) {
-            $_SESSION['userId'] = $user->getId();
-            $_SESSION['user'] = $user;
-  			return true;
-		}
+    if ($user != null && password_verify($password, $user->getPasswordHash()))
+    {
+      $_SESSION['userId'] = $user->getId();
+      $_SESSION['user'] = $user;
+      LogDAO::log($user->getId(), LogDAO::LOG_ACTION_LOGIN, $userName);
+      return true;
+    }
+    if ($user != null)
+    {
+      LogDAO::log($user->getId(), LogDAO::LOG_ACTION_LOGIN_ERROR, $userName);
+    } else
+    {
+      error_log("User not found in database " . $userName);
+    }
 
-		return false;
-	}
+    return false;
+  }
 
 	public static function signOut() {
 	    if (self::isAuthenticated()) {

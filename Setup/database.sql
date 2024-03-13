@@ -55,7 +55,7 @@ CREATE TABLE `event` (
 CREATE TABLE `log` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
-  `action` int(11) NOT NULL COMMENT '1 = logIn, 2 = logOut, 3 = bookSlot, 4 = deleteSlot',
+  `action` int(11) NOT NULL COMMENT '1 = logIn, 2 = logOut, 3 = bookSlot, 4 = deleteSlot, 5 = attendanceChange, 6=loginError',
   `info` varchar(255)  DEFAULT NULL,
   `date` int(11) NOT NULL
 ) ENGINE=InnoDB ;
