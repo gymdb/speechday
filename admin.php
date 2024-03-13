@@ -85,6 +85,18 @@ include_once 'inc/header.php';
                             </select>
                         </div>
 
+                        <div class='form-group'>
+                            <label for='inputDate'>Buchungsstart</label>
+                            <div class='input-group input-append date' id='datePickerBookingStart'>
+                                <input type='text' class='form-control' id='bookingDateStart' name='bookingDateStart'>
+                                <span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>
+                            </div>
+                        </div>
+                        <script>
+                          $('#datePickerBookingStart').datetimepicker({
+                            format: 'dd.mm.yyyy hh:ii',
+                            language: 'de',
+                          });</script>
 
                         <div class='form-group'>
                             <label for='inputDate'>Buchungsende</label>

@@ -93,7 +93,16 @@ body {
 .es-time-table-occupied {
     background-color: #D4999F;
 }
+.col1 {
+   width:25%;
+}
+.col2 {
+   width:65%;
+}
 
+.only-print {
+   display: none;
+}
 /* ------- print ------- */
 
 @media print {
@@ -107,6 +116,7 @@ body {
        height: 23px;
        text-align: center;
        vertical-align: middle !important;
+       padding: 5px !important;
    }
     .es-time-table-occupied {
         background-color: #D4999F;
@@ -131,13 +141,12 @@ body {
         top: 0;
         width: 100%
     }
+    .only-print {
+        display: inline;
+    }
 
     .no-print {
       display: none;
-      visibility: hidden;
     }
 }
 
-.only-print {
-    display: none;
-}

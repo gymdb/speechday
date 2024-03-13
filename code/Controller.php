@@ -49,18 +49,20 @@ class Controller {
         $slotDuration = $_REQUEST['slotDuration'];
         $setActive = $_REQUEST['setActive'] == 'true' ? true : false;
         $bookingDate = $_REQUEST['bookingDate'];
+        $bookingDateStart = $_REQUEST['bookingDateStart'];
         $videoLink = $_REQUEST['videoLink'];
         $breaks = $_REQUEST['breaks'];
 
         $unixTimeFrom = strtotime($date . ' ' . $beginTime);
         $unixTimeTo = strtotime($date . ' ' . $endTime);
+        $startPostDate = strtotime($bookingDateStart);
         $finalPostDate = strtotime($bookingDate);
 
         if (!$unixTimeFrom || !$unixTimeTo) {
             return;
         }
 
-        $eventId = EventDAO::createEvent($name, $unixTimeFrom, $unixTimeTo, $slotDuration, $setActive, $finalPostDate, $videoLink, $breaks);
+        $eventId = EventDAO::createEvent($name, $unixTimeFrom, $unixTimeTo, $slotDuration, $setActive, $startPostDate,$finalPostDate, $videoLink, $breaks);
         if ($eventId > 0) {
             echo 'success';
         }

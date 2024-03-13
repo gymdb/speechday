@@ -175,10 +175,10 @@ class ViewController extends Controller {
         <table class='table table-hover es-time-table'>
             <thead>
             <tr>
-                <th width='15%'>Uhrzeit</th>
-                <th width='15%'>Raum</th>
+                <th width='25%'>Uhrzeit</th>
+                <th width='25%'>Raum</th>
                 <th width='35%'>Mein Zeitplan</th>
-                <th width='35%' class='no-print'>Aktion</th>
+                <th width='15%' class='no-print'>Aktion</th>
             </tr>
             </thead>
             <tbody>

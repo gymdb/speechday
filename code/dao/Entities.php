@@ -89,6 +89,7 @@ class Event extends Entity {
     private $slotTime;
     private $isActive;
     private $finalPostDate;
+    private $startPostDate;
     private $videoLink;
     private $breaks;
     const NOBREAK = 0;
@@ -98,16 +99,17 @@ class Event extends Entity {
     const BREAKFOUR = 4;
     const BREAKFIVE = 5;
 
-    public function __construct($id, $name, $dateFrom, $dateTo, $slotTime, $isActive, $finalPostDate, $videoLink, $breaks) {
+    public function __construct($id, $name, $dateFrom, $dateTo, $slotTime, $isActive, $startPostDate, $finalPostDate, $videoLink, $breaks) {
         parent::__construct($id);
         $this->name = $name;
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
         $this->slotTime = $slotTime;
         $this->isActive = $isActive;
+        $this->startPostDate = $startPostDate;
         $this->finalPostDate = $finalPostDate;
 	$this->videoLink = $videoLink;
-	$this->breaks = $breaks;
+        $this->breaks = $breaks;
     }
 
     public function getName() {
@@ -132,8 +134,22 @@ class Event extends Entity {
     public function getfinalPostDate() {
         return $this->finalPostDate;
     }
+
+  public function getStartPostDate() {
+    return $this->startPostDate;
+  }
     public function getVideoLink() {
-        return $this->videoLink;
+        if (strlen($this->videoLink) > 10) {
+
+           $lastchar = $this->videoLink[-1];
+           if (strcmp($lastchar,"/")===0) {
+              return $this->videoLink;
+           } else {
+              return $this->videoLink."/";
+           }
+        } else {
+           return null;
+        }
     }
     public function getBreaks() {
       return $this->breaks;

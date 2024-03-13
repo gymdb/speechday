@@ -19,7 +19,7 @@ include_once 'inc/header.php';
 <div class='container'>
     <div>
         <?php if ($activeEvent != null): ?>
-            <?php if ($activeEvent->getFinalPostDate() > time()): ?>
+            <?php if ($activeEvent->getFinalPostDate() > time() && $activeEvent->getStartPostDate() < time()): ?>
                <form id='chooseTeacherForm'>
                    <div class='form-group'>
                        <label for='selectTeacher'>Lehrer / Lehrerin</label>
@@ -31,7 +31,11 @@ include_once 'inc/header.php';
 
                <div id='timeTable'></div>
            <?php else: ?>
-            <h3>Buchungen sind nicht mehr möglich!</h3>
+              <?php  if ($activeEvent->getFinalPostDate() < time()): ?>
+                <h3>Buchungen sind nicht mehr möglich!</h3>
+              <?php else: ?>
+                <h3>Buchungen sind noch nicht möglich. Start: <?php echo date("d.m.Y H:i",$activeEvent->getStartPostDate()) ?></h3>
+              <?php endif; ?>
            <?php endif; ?>
             
         <?php else: ?>
