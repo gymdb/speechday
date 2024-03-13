@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `speechday`
 --
-CREATE DATABASE IF NOT EXISTS `speechday` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+CREATE DATABASE IF NOT EXISTS `speechday` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `speechday`;
 
 -- --------------------------------------------------------
@@ -29,24 +29,25 @@ USE `speechday`;
 --
 CREATE TABLE `accessdata` (
   `id` int(11) NOT NULL,
-  `userName` varchar(255) COLLATE utf8_bin NOT NULL,
-  `password` varchar(255) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `userName` varchar(255) NOT NULL,
+  `password` varchar(255)  NOT NULL
+) ENGINE=InnoDB;
 
 --
 -- Tabellenstruktur für Tabelle `event`
 --
 CREATE TABLE `event` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) NOT NULL,
   `dateFrom` int(11) NOT NULL,
   `dateTo` int(11) NOT NULL,
   `slotTimeMin` int(11) NOT NULL DEFAULT '5',
   `isActive` int(11) NOT NULL DEFAULT '0',
+  `startPostDate` int(11),
   `finalPostDate` int(11),
-  `videoLink` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `videoLink` varchar(250) DEFAULT NULL,
   `breaks` int(1)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB ;
 
 --
 -- Tabellenstruktur für Tabelle `log`
@@ -55,19 +56,19 @@ CREATE TABLE `log` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `action` int(11) NOT NULL COMMENT '1 = logIn, 2 = logOut, 3 = bookSlot, 4 = deleteSlot',
-  `info` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `info` varchar(255)  DEFAULT NULL,
   `date` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB ;
 
 --
 -- Tabellenstruktur für Tabelle `room`
 --
 CREATE TABLE `room` (
   `id` int(11) NOT NULL,
-  `roomNumber` varchar(255) COLLATE utf8_bin NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `roomNumber` varchar(255) NOT NULL,
+  `name` varchar(255)  NOT NULL,
   `teacherId` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB ;
 
 --
 -- Tabellenstruktur für Tabelle `slot`
@@ -81,22 +82,22 @@ CREATE TABLE `slot` (
   `dateTo` int(11) NOT NULL,
   `type` int(1) NOT NULL DEFAULT '1' COMMENT '1 = normal, 2 = break',
   `available` int(11) NOT NULL DEFAULT '1' COMMENT '1 = available, 0 = not available'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB ;
 
 --
 -- Tabellenstruktur für Tabelle `user`
 --
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `userName` varchar(255) COLLATE utf8_bin NOT NULL,
-  `passwordHash` varchar(255) COLLATE utf8_bin NOT NULL,
-  `firstName` varchar(255) COLLATE utf8_bin NOT NULL,
-  `lastName` varchar(255) COLLATE utf8_bin NOT NULL,
-  `class` varchar(20) COLLATE utf8_bin DEFAULT NULL,
-  `role` enum('student','teacher','admin') COLLATE utf8_bin NOT NULL DEFAULT 'student',
-  `title` varchar(20) COLLATE utf8_bin DEFAULT '',
+  `userName` varchar(255)  NOT NULL,
+  `passwordHash` varchar(255)  NOT NULL,
+  `firstName` varchar(255)  NOT NULL,
+  `lastName` varchar(255)  NOT NULL,
+  `class` varchar(20)  DEFAULT NULL,
+  `role` enum('student','teacher','admin')  NOT NULL DEFAULT 'student',
+  `title` varchar(20)  DEFAULT '',
   `absent` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB ;
 
 -- --------------------------------------------------------
 
