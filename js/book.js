@@ -1,9 +1,27 @@
+function iOS() {
+    return [
+            'iPad Simulator',
+            'iPhone Simulator',
+            'iPod Simulator',
+            'iPad',
+            'iPhone',
+            'iPod'
+        ].includes(navigator.platform)
+        // iPad on iOS 13 detection
+        ||
+        (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
+
+
 $(document).ready(function () {
 
     $('#selectTeacher').change(function () {
         var teacherSelect = $('#selectTeacher');
-        teacherSelect.find("option[value='-1']").remove();
+        if(!iOS()){
+           teacherSelect.find("option[value='-1']").remove();
+        }
 
+        teacherSelect.find("option[value='-1']").remove();
         teacherSelect = teacherSelect.find('option:selected');
         var teacherId = teacherSelect.val();
 
@@ -11,6 +29,8 @@ $(document).ready(function () {
     });
 
 });
+
+
 
 $(document).on('click', '.btn-book', function (event) {
     var postData = $.parseJSON(this.value);
