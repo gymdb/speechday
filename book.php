@@ -1,6 +1,7 @@
 <?php
 require_once('code/dao/EventDAO.php');
 include_once 'inc/header.php';
+date_default_timezone_set('Europe/Vienna');
 ?>
 
 <script type='text/javascript' src='js/book.js'></script>
