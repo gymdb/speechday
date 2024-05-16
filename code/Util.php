@@ -79,6 +79,7 @@ function getTeacherOptions() {
 }
 
 function toDate($timestamp, $format) {
+    date_default_timezone_set('Europe/Vienna');
     return date($format, $timestamp);
 }
 
