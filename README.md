@@ -34,4 +34,5 @@ As a student / parent:
 
 ## Online Speech day
 We added support to hold the speech day online. When you create a new speech day event you can now specify a base URL for a video conferencing service. (E.g. https://meet.jit.si)
+
 Teachers and students will find an individal link for each booked slot, where they can meet online.
