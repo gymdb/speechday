@@ -130,8 +130,9 @@ class Controller {
                             echo 'Ungültiges Dateiformat!';
                             return;
                         }
+                        $deleteUsers = isset($_REQUEST['deleteUsers']);
                         $targetPath = $this->uploadFileAs($name, $tmpName);
-                        $importCSVResult = $this->importCSV($type, $targetPath);
+                        $importCSVResult = $this->importCSV($type, $targetPath,$deleteUsers);
                         echo $importCSVResult['success'] ? 'success' : $importCSVResult['message'];
                         return;
 
@@ -226,7 +227,7 @@ class Controller {
         return $targetPath;
     }
 
-    protected function importCSV($role, $targetPath) {
+    protected function importCSV($role, $targetPath,$deleteUsers) {
         // import into database
         $filename = $targetPath;
         $fp = fopen($filename, 'r');
@@ -306,26 +307,29 @@ class Controller {
                 $users[] = array($userName, createPasswordHash($password), trim($row[0]), trim($row[1]), $class, $role, $title);
             }
         }
-
-        $deleteUserSuccess = UserDAO::deleteUsersByRole($role);
-        $deleteEventSuccess = true;
-        $deleteRoomSuccess = true;
-        if ($role == 'teacher') {
+        if ($deleteUsers)
+        {
+          $deleteUserSuccess = UserDAO::deleteUsersByRole($role);
+          $deleteEventSuccess = true;
+          $deleteRoomSuccess = true;
+          if ($role == 'teacher')
+          {
             $deleteEventSuccess = EventDAO::deleteAllEvents();
             $deleteRoomSuccess = RoomDAO::deleteAllRooms();
-        }
-
-        if (!$deleteUserSuccess || !$deleteEventSuccess || !$deleteRoomSuccess) {
+          }
+          if (!$deleteUserSuccess || !$deleteEventSuccess || !$deleteRoomSuccess)
+          {
             fclose($fp);
             return array(
-                'success' => false,
-                'message' => 'Die bestehenden Einträge des gewählten Typs konnten nicht gelöscht werden!'
+              'success' => false,
+              'message' => 'Die bestehenden Einträge des gewählten Typs konnten nicht gelöscht werden!'
             );
+          }
         }
 
         UserDAO::bulkInsertUsers($users, $rooms);
         if (count($accessData) > 0) {
-            UserDAO::bulkInsertAccessData($accessData);
+            UserDAO::bulkInsertAccessData($accessData,$deleteUsers);
         }
 
         fclose($fp);

@@ -186,12 +186,15 @@ include_once 'inc/header.php';
                             <label class='control-label'>Datei auswählen</label>
                             <input id='input-file' type='file' name='file' class='file' data-show-preview='false'
                                    accept='.csv,.odt'>
+                            <label class='control-label' id="deleteUserText">Existierende Lehrer:Innen beim Import löschen?</label>
+                            <input type="checkbox" id="deleteUsers">
                             <p id="allowed-file-types" class='help-block'>Es sind nur CSV Dateien erlaubt.</p>
 
                             <div id='templateDownloadAlertContainer'></div>
                         </div>
 
                         <button type='submit' class='btn btn-primary' id='btn-upload-file'>Importieren</button>
+
                     </form>
 
                     <div class='message' id='uploadFileMessage'></div>

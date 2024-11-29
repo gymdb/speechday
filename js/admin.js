@@ -68,6 +68,16 @@ function updateUploadInfos() {
         allowedFileTypes.html('Es sind nur CSV Dateien erlaubt.');
         uploadDialog.attr('accept', '.csv');
     }
+    $('#deleteUserText').show();
+    $('#deleteUsers').show();
+    if (selectedType == 'teacher')
+       $('#deleteUserText').text("Lehrer:Innen beim Import löschen");
+    if (selectedType == 'student')
+        $('#deleteUserText').text("Schüler:Innen beim Import löschen");
+    if (selectedType == 'newsletter') {
+        $('#deleteUserText').hide();
+        $('#deleteUsers').hide();
+    }
 
     $('#templateDownloadAlertContainer').load('viewController.php?action=templateDownloadAlert&type=' + selectedType);
 }
@@ -131,6 +141,7 @@ function validateForm() {
 }
 
 $(document).on('click', '#btn-upload-file', function (event) {
+
     var uploadFileForm = $('#uploadFileForm');
     uploadFileForm.submit(function (e) {
         e.preventDefault();
@@ -142,22 +153,18 @@ $(document).on('click', '#btn-upload-file', function (event) {
             data.append('file-' + i, file);
         });
         data.append('action', 'uploadFile');
+        if ($('#deleteUsers').is(':checked')) {
+            data.append('deleteUsers',"true")
+        }
 
         var postData = $(this).serializeArray();
         var uploadType = postData[0].value;
         data.append('uploadType', uploadType);
-
         var successMessage = 'Die Rundbrief-Vorlage wurde erfolgreich hochgeladen!';
         if (uploadType == 'teacher') {
             successMessage = 'Die Lehrer wurden erfolgreich importiert!';
-            if (!confirm('WARNUNG!\n\nBeim Import werden die bestehenden Lehrer-Benutzer und bestehenden Elternsprechtage gelöscht! Soll fortgesetzt werden?')) {
-                return;
-            }
         } else if (uploadType == 'student') {
             successMessage = 'Die Schüler wurden erfolgreich importiert!';
-            if (!confirm('WARNUNG!\n\nBeim Import werden die bestehenden Schüler-Benutzer gelöscht! Soll fortgesetzt werden?')) {
-                return;
-            }
         }
 
         var formURL = 'controller.php';
