@@ -34,7 +34,7 @@ class AuthenticationManager {
         }
 
 		unset($_SESSION['userId']);
-        unset($_SESSION['user']);
+                unset($_SESSION['user']);
 	}
 
 	public static function isAuthenticated() {
@@ -44,6 +44,13 @@ class AuthenticationManager {
 	public static function getAuthenticatedUser() {
 		return self::isAuthenticated() ? $_SESSION['user'] : null;
 	}
+
+  public static function updatePassword($passwordHash) {
+    $user = self::getAuthenticatedUser();
+    return $user->updatePassword($user->getId() ,$passwordHash);
+  }
+
+
 
 	public static function checkPrivilege($role) {
 	    if ((!self::isAuthenticated()) || (self::getAuthenticatedUser()->getRole() != $role)) {

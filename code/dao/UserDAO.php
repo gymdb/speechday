@@ -237,6 +237,14 @@ class UserDAO extends AbstractDAO {
         */
     }
 
+    public static function updatePassword($userId,$passwordHash) {
+      $con = self::getConnection();
+      $query = 'UPDATE user SET passwordHash = ? WHERE Id = ?;';
+      $params = array($passwordHash, $userId);
+      $result = self::query($con, $query, $params, true)['success'];
+      return $result;
+    }
+
     public static function updateAbsent($userId,$absent) {
         $con = self::getConnection();
         $query = 'UPDATE user SET absent = ? WHERE Id = ?;';

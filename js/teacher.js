@@ -8,6 +8,42 @@ $(document).ready(function () {
         loadTimeTable(typeId);
     });
 });
+$(document).on('click', '#btn-change-password', function ()
+{
+    $('#changePasswordForm').submit(function (e)
+    {
+        var postData = $(this).serializeArray();
+        postData = postData.concat({name: 'action', value: 'changePassword'});
+
+        var formURL = 'controller.php';
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data: postData,
+            success: function (data, textStatus, jqXHR)
+            {
+                var message = $('#message');
+                if (data.indexOf('success') > -1)
+                {
+                    $('#attendance').load('viewController.php?action=changePassword');
+
+                    showMessage(message, 'success', 'Passwort wurde geändert!');
+                }
+                else
+                {
+                    showMessage(message, 'danger', 'Passwort konnte nicht geändert werden!');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                showMessage(message, 'danger', 'Passwort konnte nicht geändert werden!');
+            }
+        });
+        e.preventDefault();
+    });
+});
+
+
 
 $(document).on('click', '#btn-change-attendance', function () {
     $('#changeAttendanceForm').submit(function (e) {

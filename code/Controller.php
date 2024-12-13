@@ -371,6 +371,30 @@ class Controller {
         }
     }
 
+    protected function action_changePassword() {
+      $current_password = $_POST['current_password'];
+      $new_password = $_POST['new_password'];
+      $confirm_password = $_POST['confirm_password'];
+      if ($new_password === $confirm_password) {
+        $user = AuthenticationManager::getAuthenticatedUser();
+        if (password_verify($current_password, $user->getPasswordHash()))
+        {
+          $hash = password_hash($new_password, PASSWORD_DEFAULT);
+          $result = UserDAO::updatePassword($user->getId(), $hash);
+          if ($result == 1)
+          {
+            echo "success";
+            //logout user
+            unset($_SESSION['userId']);
+            unset($_SESSION['user']);
+            return;
+          }
+
+        }
+      }
+      echo "error";
+    }
+
     protected function action_deleteSlot() {
         $userId = $_REQUEST['userId'];
         $slotId = $_REQUEST['slotId'];
