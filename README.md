@@ -1,4 +1,8 @@
-# SpeechDay
+# This repository has been moved to [https://codeberg.org/gymdb/parents-conference/](https://codeberg.org/gymdb/parents-conference/)
+# Please use the new repository
+
+
+## SpeechDay
 
 This project can be used to easily and effectively hold a speechday (a parent-teacher-meeting) in your school.
 The administrator can import data for teachers and students and create a speechday-event.
